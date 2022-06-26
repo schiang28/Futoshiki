@@ -1,5 +1,7 @@
 class Game:
     # reads pre loaded puzzle from text file
+    # TODO: read a game1 puzzle file and game1 answer file and store separately
+
     with open("game1.txt") as f:
         file = [l.split(",") for l in f.read().splitlines()]
     for i in range(1, len(file), 2):
