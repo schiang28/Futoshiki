@@ -25,16 +25,28 @@ class Terminal(Ui):
             try:
                 row = int(input("Enter row: "))
                 column = int(input("Enter column: "))
-                if 1 <= row <= 4 and 1 <= column <= 4:
+                if 1 <= row <= Game.GRID_SIZE and 1 <= column <= Game.GRID_SIZE:
                     break
                 else:
                     print("Invalid input. Please try again")
             except ValueError():
                 print("invalid input")
 
-        return row, column
+        while True:
+            choice = input("Enter number to play or x to clear: ")
+            if choice == "x":
+                break
+            try:
+                if 1 <= int(choice) <= Game.GRID_SIZE:
+                    break
+                else:
+                    print("Invalid input. Please try again")
+            except:
+                print("invalid input")
+
+        return row, column, choice
 
     def run(self):
         print(self.__game)
-        row, col = self.__get_input()
-        print(row, col)
+        row, col, choice = self.__get_input()
+        print(row, col, choice)

@@ -8,5 +8,6 @@ for i in range(1, len(file), 2):
         if file[i][j] == ">":
             file[i][j] = "v"
 
-for l in file:
-    print(l)
+print(file)
+# for l in file:
+#     print(" ".join(l))

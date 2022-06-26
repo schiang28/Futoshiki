@@ -9,13 +9,22 @@ class Game:
             if file[i][j] == ">":
                 file[i][j] = "v"
 
+    GRID_SIZE = 4
+    EMPTY = " "
+
     def __init__(self):
         self.__board = Game.file
 
     def __repr__(self):
-        display = ""
+        display = "   ".join(str(i + 1) for i in range(Game.GRID_SIZE)) + "\n"
+        display += "----" * (Game.GRID_SIZE - 1) + "--" + "\n"
         for row in range(len(self.__board)):
-            display += f"{self.__board[row]} \n"
+            if row % 2 == 0:
+                display += (
+                    " ".join(self.__board[row]) + " | " + str(row // 2 + 1) + "\n"
+                )
+            else:
+                display += " ".join(self.__board[row]) + " | " + "\n"
         return display
 
     def play(self, row, col):
