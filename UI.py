@@ -32,5 +32,9 @@ class Terminal(Ui):
             except ValueError():
                 print("invalid input")
 
+        return row, column
+
     def run(self):
-        pass
+        print(self.__game)
+        row, col = self.__get_input()
+        print(row, col)
