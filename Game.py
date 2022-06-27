@@ -11,11 +11,15 @@ class Game:
             if file[i][j] == ">":
                 file[i][j] = "v"
 
+    with open("game1ans.txt") as f:
+        answer = [l.split(",") for l in f.read().splitlines()]
+
     GRID_SIZE = 4
     EMPTY = " "
 
     def __init__(self):
         self.__board = Game.file
+        self.__answer = Game.answer
 
     def __repr__(self):
         display = "   ".join(str(i + 1) for i in range(Game.GRID_SIZE)) + "\n"
@@ -28,6 +32,9 @@ class Game:
             else:
                 display += " ".join(self.__board[row]) + " | " + "\n"
         return display
+
+    def check(self):
+        return self.__board == self.__answer
 
     def play(self, row, col):
         pass

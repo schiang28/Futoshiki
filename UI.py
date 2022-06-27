@@ -50,3 +50,4 @@ class Terminal(Ui):
         print(self.__game)
         row, col, choice = self.__get_input()
         print(row, col, choice)
+        print(self.__game.check())
