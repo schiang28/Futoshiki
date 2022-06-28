@@ -34,10 +34,22 @@ class Game:
         return display
 
     def check(self):
-        return self.__board == self.__answer
+        # return True if answer = current board
+        for row in range(len(self.__board)):
+            for col in range(len(self.__board[row])):
+                if self.__board[row][col] != self.__answer[row][col] and (
+                    self.__board[row][col] not in [">", "<", "^", "v"]
+                    or self.__answer[row][col] not in [">", "<", "^", "v"]
+                ):
+                    return False
+        return True
 
-    def play(self, row, col):
-        pass
+    def play(self, row, col, choice):
+        if choice != "x":
+            self.__board[(row - 1) * 2][(col - 1) * 2] = choice
+        else:
+            self.__board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
+        print(f"played {choice} at {row},{col}")
 
     @property
     def winner(self):

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from Game import Game
+from Colors import color
 
 
 class Ui(ABC):
@@ -47,7 +48,9 @@ class Terminal(Ui):
         return row, column, choice
 
     def run(self):
-        print(self.__game)
-        row, col, choice = self.__get_input()
-        print(row, col, choice)
-        print(self.__game.check())
+        while not self.__game.check():
+            print(self.__game)
+            row, col, choice = self.__get_input()
+            self.__game.play(row, col, choice)
+        print(color.BOLD + self.__game + color.END)
+        print("puzzle correct!")
