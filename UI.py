@@ -52,5 +52,5 @@ class Terminal(Ui):
             print(self.__game)
             row, col, choice = self.__get_input()
             self.__game.play(row, col, choice)
-        print(color.BOLD + self.__game + color.END)
+        print(self.__game)
         print("puzzle correct!")

@@ -1,5 +1,10 @@
+from Colors import color
+
+
 class Game:
-    # reads pre loaded puzzle from text file
+
+    GRID_SIZE = 4
+    EMPTY = " "
     # TODO: read a game1 puzzle file and game1 answer file and store separately
 
     with open("game1.txt") as f:
@@ -14,8 +19,12 @@ class Game:
     with open("game1ans.txt") as f:
         answer = [l.split(",") for l in f.read().splitlines()]
 
-    GRID_SIZE = 4
-    EMPTY = " "
+    # TODO: make sure the user cannot play in the fixed numbered spaces
+    fixed = []
+    for row in range(0, len(file), 2):
+        for col in range(0, len(file[row]), 2):
+            if file[row][col] != " ":
+                fixed[row][col] = (row, col)
 
     def __init__(self):
         self.__board = Game.file
