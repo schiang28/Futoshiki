@@ -11,5 +11,7 @@ fixed = []
 for row in range(0, len(file), 2):
     for col in range(0, len(file[row]), 2):
         if file[row][col] != " ":
-            fixed.append((row, col))
+            fixed.append((row // 2 + 1, col // 2 + 1))
+
+
 print(fixed)

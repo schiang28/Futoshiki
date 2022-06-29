@@ -5,7 +5,6 @@ class Game:
 
     GRID_SIZE = 4
     EMPTY = " "
-    # TODO: read a game1 puzzle file and game1 answer file and store separately
 
     with open("game1.txt") as f:
         file = [l.split(",") for l in f.read().splitlines()]
@@ -24,11 +23,12 @@ class Game:
     for row in range(0, len(file), 2):
         for col in range(0, len(file[row]), 2):
             if file[row][col] != " ":
-                fixed[row][col] = (row, col)
+                fixed.append((row // 2 + 1, col // 2 + 1))
 
     def __init__(self):
         self.__board = Game.file
         self.__answer = Game.answer
+        self.__fixed = Game.fixed
 
     def __repr__(self):
         display = "   ".join(str(i + 1) for i in range(Game.GRID_SIZE)) + "\n"
@@ -54,11 +54,14 @@ class Game:
         return True
 
     def play(self, row, col, choice):
-        if choice != "x":
-            self.__board[(row - 1) * 2][(col - 1) * 2] = choice
+        if (row, col) not in self.__fixed:
+            if choice != "x":
+                self.__board[(row - 1) * 2][(col - 1) * 2] = choice
+            else:
+                self.__board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
+            print(f"played {choice} at {row},{col}")
         else:
-            self.__board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
-        print(f"played {choice} at {row},{col}")
+            print("tile is fixed, so invalid move")
 
     @property
     def winner(self):
