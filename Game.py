@@ -18,7 +18,6 @@ class Game:
     with open("game1ans.txt") as f:
         answer = [l.split(",") for l in f.read().splitlines()]
 
-    # TODO: make sure the user cannot play in the fixed numbered spaces
     fixed = []
     for row in range(0, len(file), 2):
         for col in range(0, len(file[row]), 2):
@@ -53,19 +52,24 @@ class Game:
                     return False
         return True
 
-    def play(self, row, col, choice):
+    def is_valid(self, row, col, choice):
+        # notifies the user that there is same number in row or grid or doesn't satisfy inequality
         if (row, col) not in self.__fixed:
-            if choice != "x":
-                self.__board[(row - 1) * 2][(col - 1) * 2] = choice
-            else:
-                self.__board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
-            print(f"played {choice} at {row},{col}")
-        else:
-            print("tile is fixed, so invalid move")
+            if choice not in self.__board[row * 2 - 2] and choice not in [
+                i[col * 2 - 2] for i in self.__board
+            ]:
+                return True
+            print("same number in row or column, so invalid move")
+            return False
+        print("tile is fixed, so invalid move")
+        return False
 
-    @property
-    def winner(self):
-        pass
+    def play(self, row, col, choice):
+        if choice != "x":
+            self.__board[(row - 1) * 2][(col - 1) * 2] = choice
+        else:
+            self.__board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
+        print(f"played {choice} at {row},{col}")
 
 
 if __name__ == "__main__":

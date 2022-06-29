@@ -51,6 +51,7 @@ class Terminal(Ui):
         while not self.__game.check():
             print(self.__game)
             row, col, choice = self.__get_input()
-            self.__game.play(row, col, choice)
+            if self.__game.is_valid(row, col, choice):
+                self.__game.play(row, col, choice)
         print(self.__game)
         print("puzzle correct!")
