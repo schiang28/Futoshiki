@@ -78,12 +78,12 @@ class Gui(Ui):
 
     def __draw_puzzle(self):
         numbers = self.__game.file
-        for row in range(len(numbers) // 2 + 1):
-            for col in range(len(numbers[row]) // 2 + 1):
+        for row in range(len(numbers)):
+            for col in range(len(numbers[row])):
                 self.__canvas.create_text(
-                    Gui.MARGIN + col * 2 * Gui.SIDE + Gui.SIDE / 2,
-                    Gui.MARGIN + row * 2 * Gui.SIDE + Gui.SIDE / 2,
-                    text=numbers[row * 2][col * 2],
+                    Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
+                    Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
+                    text=numbers[row][col],
                     tags="numbers",
                 )
 
