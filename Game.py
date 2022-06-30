@@ -41,6 +41,10 @@ class Game:
                 display += " ".join(self.__board[row]) + " | " + "\n"
         return display
 
+    @property
+    def get_board(self):
+        return self.__board
+
     def check(self):
         # return True if answer = current board
         for row in range(len(self.__board)):

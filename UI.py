@@ -14,8 +14,11 @@ class Ui(ABC):
 
 class Gui(Ui):
     # TODO: create futoshiki grid
-    MARGIN = 50
-    SIDE = 100
+    MARGIN = 20
+    SIDE = 50
+
+    with open("game1.txt") as f:
+        file = [l.split(",") for l in f.read().splitlines()]
 
     def __init__(self):
         self.__game_win = None
@@ -40,7 +43,7 @@ class Gui(Ui):
         self.__game = Game()
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
-        game_win.geometry("800x600")
+        game_win.geometry("600x400")
 
         self.__canvas = Canvas(game_win, width=WIDTH, height=HEIGHT)
         self.__canvas.pack(fill=BOTH, side=TOP)
@@ -59,27 +62,35 @@ class Gui(Ui):
             for l in range(self.__game.GRID_SIZE * 2):
                 # vertical lines
                 x0 = Gui.MARGIN + l * Gui.SIDE
-                y0 = Gui.MARGIN * (row + 1) + Gui.SIDE * row
+                y0 = Gui.MARGIN + Gui.SIDE * 2 * row
                 x1 = Gui.MARGIN + l * Gui.SIDE
-                y1 = Gui.MARGIN * (row + 1) + Gui.SIDE * row + Gui.SIDE
+                y1 = Gui.MARGIN + Gui.SIDE * 2 * row + Gui.SIDE
                 self.__canvas.create_line(x0, y0, x1, y1)
 
             for l in range(self.__game.GRID_SIZE):
                 # horizontal lines
                 x0 = Gui.MARGIN + l * 2 * Gui.SIDE
-                y0 = Gui.MARGIN * (row + 1) + Gui.SIDE * row
+                y0 = Gui.MARGIN + Gui.SIDE * 2 * row
                 x1 = Gui.MARGIN + l * 2 * Gui.SIDE + Gui.SIDE
-                y1 = Gui.MARGIN * (row + 1) + Gui.SIDE * row
+                y1 = Gui.MARGIN + Gui.SIDE * 2 * row
                 self.__canvas.create_line(x0, y0, x1, y1)
                 self.__canvas.create_line(x0, y0 + Gui.SIDE, x1, y1 + Gui.SIDE)
+
+    def __draw_puzzle(self):
+        numbers = self.__game.file
+        for row in range(len(numbers) // 2 + 1):
+            for col in range(len(numbers[row]) // 2 + 1):
+                self.__canvas.create_text(
+                    Gui.MARGIN + col * 2 * Gui.SIDE + Gui.SIDE / 2,
+                    Gui.MARGIN + row * 2 * Gui.SIDE + Gui.SIDE / 2,
+                    text=numbers[row * 2][col * 2],
+                    tags="numbers",
+                )
 
     def __cell_clicked(self):
         pass
 
     def __key_pressed(self):
-        pass
-
-    def __draw_puzzle(self):
         pass
 
     def __quit(self):
