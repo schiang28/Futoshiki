@@ -39,11 +39,13 @@ class Gui(Ui):
         if self.__game_win:
             return
 
-        WIDTH = HEIGHT = Gui.MARGIN * 2 + Gui.SIDE * 7
         self.__game = Game()
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
+
+        # geometry has to be a variable for different grid sizes
         game_win.geometry("600x400")
+        WIDTH = HEIGHT = Gui.MARGIN * 2 + Gui.SIDE * (self.__game.GRID_SIZE * 2 - 1)
 
         self.__canvas = Canvas(game_win, width=WIDTH, height=HEIGHT)
         self.__canvas.pack(fill=BOTH, side=TOP)
