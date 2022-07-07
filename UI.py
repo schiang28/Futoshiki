@@ -48,16 +48,21 @@ class Gui(Ui):
         WIDTH = HEIGHT = Gui.MARGIN * 2 + Gui.SIDE * (self.__game.GRID_SIZE * 2 - 1)
 
         self.__canvas = Canvas(game_win, width=WIDTH, height=HEIGHT)
-        self.__canvas.pack(fill=BOTH, side=TOP)
-
-        clear_button = Button(game_win, text="Clear answers")
-        clear_button.pack(fill=BOTH, side=BOTTOM)
+        self.__canvas.pack(fill=BOTH, side=LEFT)
 
         self.__draw_grid()
         self.__draw_puzzle()
 
         self.__canvas.bind("<Button-1>", self.__cell_clicked)
         self.__canvas.bind("<Key>", self.__key_pressed)
+
+        self.__game_win = game_win
+        dismiss_button = Button(
+            game_win, text="Dismiss", command=self.__dismiss_game_win
+        )
+        dismiss_button.pack(ipadx=10, ipady=10, expand=True)
+        check_button = Button(game_win, text="Check", command=self.__check)
+        check_button.pack(ipadx=10, ipady=10, expand=True)
 
     def __draw_grid(self):
         for row in range(self.__game.GRID_SIZE):
@@ -97,6 +102,13 @@ class Gui(Ui):
 
     def __quit(self):
         self.__root.quit()
+
+    def __dismiss_game_win(self):
+        self.__game_win.destroy()
+        self.__game_win = None
+
+    def __check(self):
+        pass
 
     def run(self):
         self.__root.mainloop()
