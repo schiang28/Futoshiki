@@ -143,9 +143,12 @@ class Gui(Ui):
             and self.__row % 2 == 0
             and self.__col % 2 == 0
             and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
-            and event.char in "0123456789"
+            and (event.char in "0123456789" or event.keysym == "BackSpace")
         ):
-            self.__game.set_board(self.__row, self.__col, str(int(event.char)))
+            if event.char in "0123456789":
+                self.__game.set_board(self.__row, self.__col, str(int(event.char)))
+            else:
+                self.__game.set_board(self.__row, self.__col, self.__game.EMPTY)
             self.__draw_puzzle()
             self.__draw_cursor()
 
