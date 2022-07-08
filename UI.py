@@ -149,6 +149,9 @@ class Gui(Ui):
                 self.__game.set_board(self.__row, self.__col, str(int(event.char)))
             else:
                 self.__game.set_board(self.__row, self.__col, self.__game.EMPTY)
+
+            if self.__game.check():
+                self.__complete()
             self.__draw_puzzle()
             self.__draw_cursor()
 
@@ -158,6 +161,9 @@ class Gui(Ui):
     def __dismiss_game_win(self):
         self.__game_win.destroy()
         self.__game_win = None
+
+    def __complete(self):
+        print("completed puzzle")
 
     def __check(self):
         pass
