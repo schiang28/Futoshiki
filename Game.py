@@ -1,4 +1,5 @@
 from Colors import color
+from copy import deepcopy
 
 
 class Game:
@@ -25,7 +26,7 @@ class Game:
                 fixed.append((row // 2 + 1, col // 2 + 1))
 
     def __init__(self):
-        self._board = Game.file
+        self._board = deepcopy(Game.file)
         self.__answer = Game.answer
         self.__fixed = Game.fixed
 
@@ -42,6 +43,9 @@ class Game:
     @property
     def get_board(self):
         return self._board
+
+    def set_board(self, row, col, value):
+        self._board[row][col] = value
 
     def check(self):
         # return True if answer = current board

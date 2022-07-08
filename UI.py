@@ -89,6 +89,7 @@ class Gui(Ui):
                 self.__canvas.create_line(x0, y0 + Gui.SIDE, x1, y1 + Gui.SIDE)
 
     def __draw_puzzle(self):
+        self.__canvas.delete("numbers")
         numbers = self.__game.get_board
         for row in range(len(numbers)):
             for col in range(len(numbers[row])):
@@ -133,19 +134,20 @@ class Gui(Ui):
             self.__canvas.create_rectangle(x0, y0, x1, y1, outline="red", tags="cursor")
 
     def __key_pressed(self, event):
-        #     if self.__game.check():
-        #         return
+        if self.__game.check():
+            return
 
-        #     if (
-        #         self.__row >= 0
-        #         and self.__col >= 0
-        #         and self.__row % 2 == 0
-        #         and self.__col % 2 == 0
-        #         and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
-        #         and event.char in "0123456789"
-        #     ):
-        #         self.__game.__board[self.__row][self.__col] = int(event.char)
-        pass
+        if (
+            self.__row >= 0
+            and self.__col >= 0
+            and self.__row % 2 == 0
+            and self.__col % 2 == 0
+            and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
+            and event.char in "0123456789"
+        ):
+            self.__game.set_board(self.__row, self.__col, str(int(event.char)))
+            self.__draw_puzzle()
+            self.__draw_cursor()
 
     def __quit(self):
         self.__root.quit()
