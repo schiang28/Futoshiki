@@ -25,32 +25,30 @@ class Game:
                 fixed.append((row // 2 + 1, col // 2 + 1))
 
     def __init__(self):
-        self.__board = Game.file
+        self._board = Game.file
         self.__answer = Game.answer
         self.__fixed = Game.fixed
 
     def __repr__(self):
         display = "   ".join(str(i + 1) for i in range(Game.GRID_SIZE)) + "\n"
         display += "----" * (Game.GRID_SIZE - 1) + "--" + "\n"
-        for row in range(len(self.__board)):
+        for row in range(len(self._board)):
             if row % 2 == 0:
-                display += (
-                    " ".join(self.__board[row]) + " | " + str(row // 2 + 1) + "\n"
-                )
+                display += " ".join(self._board[row]) + " | " + str(row // 2 + 1) + "\n"
             else:
-                display += " ".join(self.__board[row]) + " | " + "\n"
+                display += " ".join(self._board[row]) + " | " + "\n"
         return display
 
     @property
     def get_board(self):
-        return self.__board
+        return self._board
 
     def check(self):
         # return True if answer = current board
-        for row in range(len(self.__board)):
-            for col in range(len(self.__board[row])):
-                if self.__board[row][col] != self.__answer[row][col] and (
-                    self.__board[row][col] not in [">", "<", "^", "v"]
+        for row in range(len(self._board)):
+            for col in range(len(self._board[row])):
+                if self._board[row][col] != self.__answer[row][col] and (
+                    self._board[row][col] not in [">", "<", "^", "v"]
                     or self.__answer[row][col] not in [">", "<", "^", "v"]
                 ):
                     return False
@@ -59,8 +57,8 @@ class Game:
     def is_valid(self, row, col, choice):
         # notifies the user that there is same number in row or grid or doesn't satisfy inequality
         if (row, col) not in self.__fixed:
-            if choice not in self.__board[row * 2 - 2] and choice not in [
-                i[col * 2 - 2] for i in self.__board
+            if choice not in self._board[row * 2 - 2] and choice not in [
+                i[col * 2 - 2] for i in self._board
             ]:
                 return True
             print("same number in row or column, so invalid move")
@@ -70,9 +68,9 @@ class Game:
 
     def play(self, row, col, choice):
         if choice != "x":
-            self.__board[(row - 1) * 2][(col - 1) * 2] = choice
+            self._board[(row - 1) * 2][(col - 1) * 2] = choice
         else:
-            self.__board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
+            self._board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
         print(f"played {choice} at {row},{col}")
 
 

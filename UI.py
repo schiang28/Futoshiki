@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from calendar import c
+from shutil import register_unpack_format
 from turtle import width
 from types import CellType
 from Game import Game
@@ -88,7 +89,7 @@ class Gui(Ui):
                 self.__canvas.create_line(x0, y0 + Gui.SIDE, x1, y1 + Gui.SIDE)
 
     def __draw_puzzle(self):
-        numbers = self.__game.file
+        numbers = self.__game.get_board
         for row in range(len(numbers)):
             for col in range(len(numbers[row])):
                 self.__canvas.create_text(
@@ -131,7 +132,19 @@ class Gui(Ui):
             y1 = Gui.MARGIN + (self.__row + 1) * Gui.SIDE - 1
             self.__canvas.create_rectangle(x0, y0, x1, y1, outline="red", tags="cursor")
 
-    def __key_pressed(self):
+    def __key_pressed(self, event):
+        #     if self.__game.check():
+        #         return
+
+        #     if (
+        #         self.__row >= 0
+        #         and self.__col >= 0
+        #         and self.__row % 2 == 0
+        #         and self.__col % 2 == 0
+        #         and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
+        #         and event.char in "0123456789"
+        #     ):
+        #         self.__game.__board[self.__row][self.__col] = int(event.char)
         pass
 
     def __quit(self):
