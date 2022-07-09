@@ -37,9 +37,9 @@ class Gui(Ui):
             return
 
         self.__game = Game()
-        self.__game.set_grid_size(6)
+        self.__game.set_grid_size(4)
         # needs to be variables eventually
-        self.__game.create_grid(6, 1)
+        self.__game.create_grid(4, 2)
 
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
