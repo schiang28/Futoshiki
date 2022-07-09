@@ -49,6 +49,12 @@ class Game:
                 filename = "game2easy.txt"
             else:
                 filename = "game2hard.txt"
+        elif size == 6:
+            fileans = "game3ans.txt"
+            if difficulty == 1:
+                filename = "game3easy.txt"
+            else:
+                filename = "game3hard.txt"
 
         with open(filename) as f:
             file = [l.split(",") for l in f.read().splitlines()]
