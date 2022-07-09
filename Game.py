@@ -4,7 +4,6 @@ from copy import deepcopy
 
 class Game:
 
-    GRID_SIZE = 4
     EMPTY = " "
 
     with open("game1.txt") as f:
@@ -27,12 +26,13 @@ class Game:
 
     def __init__(self):
         self._board = deepcopy(Game.file)
+        self._grid_size = 4
         self.__answer = Game.answer
         self.__fixed = Game.fixed
 
     def __repr__(self):
-        display = "   ".join(str(i + 1) for i in range(Game.GRID_SIZE)) + "\n"
-        display += "----" * (Game.GRID_SIZE - 1) + "--" + "\n"
+        display = "   ".join(str(i + 1) for i in range(self._grid_size)) + "\n"
+        display += "----" * (self._grid_size - 1) + "--" + "\n"
         for row in range(len(self._board)):
             if row % 2 == 0:
                 display += " ".join(self._board[row]) + " | " + str(row // 2 + 1) + "\n"
@@ -46,6 +46,10 @@ class Game:
 
     def set_board(self, row, col, value):
         self._board[row][col] = value
+
+    @property
+    def get_grid_size(self):
+        return self._grid_size
 
     def check(self):
         # return True if answer = current board

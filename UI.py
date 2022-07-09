@@ -48,7 +48,7 @@ class Gui(Ui):
         # geometry has to be a variable for different grid sizes
         game_win.geometry("800x500")
         self.__width = self.__height = Gui.MARGIN * 2 + Gui.SIDE * (
-            self.__game.GRID_SIZE * 2 - 1
+            self.__game.get_grid_size * 2 - 1
         )
 
         console = Text(game_win, height=1, width=50)
@@ -76,8 +76,8 @@ class Gui(Ui):
         check_button.pack(ipadx=10, ipady=10, expand=True)
 
     def __draw_grid(self):
-        for row in range(self.__game.GRID_SIZE):
-            for l in range(self.__game.GRID_SIZE * 2):
+        for row in range(self.__game.get_grid_size):
+            for l in range(self.__game.get_grid_size * 2):
                 # vertical lines
                 x0 = Gui.MARGIN + l * Gui.SIDE
                 y0 = Gui.MARGIN + Gui.SIDE * 2 * row
@@ -85,7 +85,7 @@ class Gui(Ui):
                 y1 = Gui.MARGIN + Gui.SIDE * 2 * row + Gui.SIDE
                 self.__canvas.create_line(x0, y0, x1, y1)
 
-            for l in range(self.__game.GRID_SIZE):
+            for l in range(self.__game.get_grid_size):
                 # horizontal lines
                 x0 = Gui.MARGIN + l * 2 * Gui.SIDE
                 y0 = Gui.MARGIN + Gui.SIDE * 2 * row
