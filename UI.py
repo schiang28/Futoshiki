@@ -1,10 +1,5 @@
 from abc import ABC, abstractmethod
-from calendar import c
-from shutil import register_unpack_format
-from turtle import width
-from types import CellType
 from Game import Game
-from Colors import color
 from tkinter import *
 
 
