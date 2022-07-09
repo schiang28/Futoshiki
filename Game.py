@@ -26,7 +26,7 @@ class Game:
 
     def __init__(self):
         self._board = deepcopy(Game.file)
-        self._grid_size = 4
+        self._grid_size = None
         self.__answer = Game.answer
         self.__fixed = Game.fixed
 
@@ -50,6 +50,9 @@ class Game:
     @property
     def get_grid_size(self):
         return self._grid_size
+
+    def set_grid_size(self, value):
+        self._grid_size = value
 
     def check(self):
         # return True if answer = current board

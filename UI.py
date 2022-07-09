@@ -42,6 +42,7 @@ class Gui(Ui):
             return
 
         self.__game = Game()
+        self.__game.set_grid_size(4)
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
 
@@ -190,7 +191,10 @@ class Terminal(Ui):
             try:
                 row = int(input("Enter row: "))
                 column = int(input("Enter column: "))
-                if 1 <= row <= Game.GRID_SIZE and 1 <= column <= Game.GRID_SIZE:
+                if (
+                    1 <= row <= self.__game.get_grid_size
+                    and 1 <= column <= self.__game.get_grid_size
+                ):
                     break
                 else:
                     print("Invalid input. Please try again")
@@ -202,7 +206,7 @@ class Terminal(Ui):
             if choice == "x":
                 break
             try:
-                if 1 <= int(choice) <= Game.GRID_SIZE:
+                if 1 <= int(choice) <= self.__game.get_grid_size:
                     break
                 else:
                     print("Invalid input. Please try again")
@@ -212,6 +216,7 @@ class Terminal(Ui):
         return row, column, choice
 
     def run(self):
+        self.__game.set_grid_size(4)
         while not self.__game.check():
             print(self.__game)
             row, col, choice = self.__get_input()
