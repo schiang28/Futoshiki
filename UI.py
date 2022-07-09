@@ -46,10 +46,16 @@ class Gui(Ui):
         game_win.title("Puzzle")
 
         # geometry has to be a variable for different grid sizes
-        game_win.geometry("600x400")
+        game_win.geometry("800x500")
         self.__width = self.__height = Gui.MARGIN * 2 + Gui.SIDE * (
             self.__game.GRID_SIZE * 2 - 1
         )
+
+        console = Text(game_win, height=1, width=50)
+        console.tag_configure("center", justify="center")
+        console.pack(side=TOP)
+        console.configure(state="disabled")
+        self.__console = console
 
         self.__canvas = Canvas(game_win, width=self.__width, height=self.__height)
         self.__canvas.pack(side=LEFT)
@@ -143,9 +149,9 @@ class Gui(Ui):
             and self.__row % 2 == 0
             and self.__col % 2 == 0
             and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
-            and (event.char in "0123456789" or event.keysym == "BackSpace")
+            and (event.char in "123456789" or event.keysym == "BackSpace")
         ):
-            if event.char in "0123456789":
+            if event.char in "123456789":
                 self.__game.set_board(self.__row, self.__col, str(int(event.char)))
             else:
                 self.__game.set_board(self.__row, self.__col, self.__game.EMPTY)
@@ -163,7 +169,10 @@ class Gui(Ui):
         self.__game_win = None
 
     def __complete(self):
-        print("completed puzzle")
+        self.__console.configure(state="normal")
+        self.__console.insert(END, "puzzle correct!")
+        self.__console.tag_add("center", "1.0", "end")
+        self.__console.configure(state="disabled")
 
     def __check(self):
         pass
