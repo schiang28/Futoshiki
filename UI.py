@@ -43,6 +43,9 @@ class Gui(Ui):
 
         self.__game = Game()
         self.__game.set_grid_size(4)
+        # needs to be variables eventually
+        self.__game.create_grid(4, 1)
+
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
 
@@ -186,6 +189,29 @@ class Terminal(Ui):
     def __init__(self):
         self.__game = Game()
 
+    def __get_grid_settings(self):
+        while True:
+            try:
+                size = int(input("Enter prefered grid size: "))
+                if 4 <= size <= 7:
+                    break
+                else:
+                    print("not valid grid size")
+            except:
+                print("invalid input")
+
+        while True:
+            try:
+                difficulty = int(input("Enter difficulty; 1 for easy, 2 for hard: "))
+                if 1 <= difficulty <= 2:
+                    break
+                else:
+                    print("not valid difficulty input")
+            except:
+                print("invalid input")
+
+        return size, difficulty
+
     def __get_input(self):
         while True:
             try:
@@ -198,7 +224,7 @@ class Terminal(Ui):
                     break
                 else:
                     print("Invalid input. Please try again")
-            except ValueError():
+            except:
                 print("invalid input")
 
         while True:
@@ -216,7 +242,10 @@ class Terminal(Ui):
         return row, column, choice
 
     def run(self):
-        self.__game.set_grid_size(4)
+        size, difficulty = self.__get_grid_settings()
+        self.__game.set_grid_size(size)
+        self.__game.create_grid(size, difficulty)
+
         while not self.__game.check():
             print(self.__game)
             row, col, choice = self.__get_input()

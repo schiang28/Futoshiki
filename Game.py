@@ -6,29 +6,11 @@ class Game:
 
     EMPTY = " "
 
-    with open("game1.txt") as f:
-        file = [l.split(",") for l in f.read().splitlines()]
-    for i in range(1, len(file), 2):
-        for j in range(0, len(file[i]), 2):
-            if file[i][j] == "<":
-                file[i][j] = "^"
-            if file[i][j] == ">":
-                file[i][j] = "v"
-
-    with open("game1ans.txt") as f:
-        answer = [l.split(",") for l in f.read().splitlines()]
-
-    fixed = []
-    for row in range(0, len(file), 2):
-        for col in range(0, len(file[row]), 2):
-            if file[row][col] != " ":
-                fixed.append((row // 2 + 1, col // 2 + 1))
-
     def __init__(self):
-        self._board = deepcopy(Game.file)
+        self._board = None
         self._grid_size = None
-        self.__answer = Game.answer
-        self.__fixed = Game.fixed
+        self.__answer = None
+        self.__fixed = None
 
     def __repr__(self):
         display = "   ".join(str(i + 1) for i in range(self._grid_size)) + "\n"
@@ -53,6 +35,37 @@ class Game:
 
     def set_grid_size(self, value):
         self._grid_size = value
+
+    def create_grid(self, size, difficulty):
+        if size == 4:
+            fileans = "game1ans.txt"
+            if difficulty == 1:
+                filename = "game1.txt"
+            else:
+                filename = "game1hard.txt"
+
+        with open(filename) as f:
+            file = [l.split(",") for l in f.read().splitlines()]
+        for i in range(1, len(file), 2):
+            for j in range(0, len(file[i]), 2):
+                if file[i][j] == "<":
+                    file[i][j] = "^"
+                if file[i][j] == ">":
+                    file[i][j] = "v"
+
+        with open(fileans) as f:
+            answer = [l.split(",") for l in f.read().splitlines()]
+
+        fixed = []
+        for row in range(0, len(file), 2):
+            for col in range(0, len(file[row]), 2):
+                if file[row][col] != " ":
+                    fixed.append((row // 2 + 1, col // 2 + 1))
+
+        self.file = file
+        self._board = deepcopy(self.file)
+        self.__answer = answer
+        self.__fixed = fixed
 
     def check(self):
         # return True if answer = current board
