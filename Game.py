@@ -11,6 +11,7 @@ class Game:
         self._grid_size = None
         self.__answer = None
         self.__fixed = None
+        self.__moves = []
 
     def __repr__(self):
         display = "   ".join(str(i + 1) for i in range(self._grid_size)) + "\n"
@@ -109,14 +110,25 @@ class Game:
         return False
 
     def play(self, row, col, choice):
+        original = self._board[(row - 1) * 2][(col - 1) * 2]
         if choice != "x":
             self._board[(row - 1) * 2][(col - 1) * 2] = choice
         else:
             self._board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
         print(f"played {choice} at {row},{col}")
+        # moves contains three tuple of row, col, original
+        self.__moves.append(((row - 1) * 2, (col - 1) * 2, original))
 
     def restart(self):
         self._board = deepcopy(self.file)
+
+    def undo(self):
+        if len(self.__moves) > 0:
+            undomove = self.__moves[-1]
+            self._board[undomove[0]][undomove[1]] = undomove[2]
+            self.__moves.pop()
+        else:
+            print("no moves to undo")
 
 
 if __name__ == "__main__":

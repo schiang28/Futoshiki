@@ -238,8 +238,8 @@ class Terminal(Ui):
 
     def __get_option(self):
         while True:
-            choice = input("enter to continue, or r:restart")
-            if choice in ["", "r"]:
+            choice = input("enter to continue, or r:restart, u:undo")
+            if choice in ["", "r", "u"]:
                 break
             else:
                 print("invalid input")
@@ -257,10 +257,11 @@ class Terminal(Ui):
                 self.__game.play(row, col, choice)
 
             choice = self.__get_option()
-            if choice == "c":
-                continue
-            elif choice == "r":
+            if choice == "r":
                 self.__game.restart()
+            elif choice == "u":
+                self.__game.undo()
+                self.__game.undo()
 
         print(self.__game)
         print("puzzle correct!")
