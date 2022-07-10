@@ -252,16 +252,18 @@ class Terminal(Ui):
 
         while not self.__game.check():
             print(self.__game)
-            row, col, choice = self.__get_input()
-            if self.__game.is_valid(row, col, choice):
-                self.__game.play(row, col, choice)
 
             choice = self.__get_option()
             if choice == "r":
                 self.__game.restart()
+                continue
             elif choice == "u":
                 self.__game.undo()
-                self.__game.undo()
+                continue
+
+            row, col, choice = self.__get_input()
+            if self.__game.is_valid(row, col, choice):
+                self.__game.play(row, col, choice)
 
         print(self.__game)
         print("puzzle correct!")
