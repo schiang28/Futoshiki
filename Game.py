@@ -115,6 +115,9 @@ class Game:
             self._board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
         print(f"played {choice} at {row},{col}")
 
+    def restart(self):
+        self._board = deepcopy(self.file)
+
 
 if __name__ == "__main__":
     pass

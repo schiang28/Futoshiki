@@ -37,9 +37,9 @@ class Gui(Ui):
             return
 
         self.__game = Game()
-        self.__game.set_grid_size(4)
+        self.__game.set_grid_size(5)
         # needs to be variables eventually
-        self.__game.create_grid(4, 2)
+        self.__game.create_grid(5, 1)
 
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
@@ -236,6 +236,15 @@ class Terminal(Ui):
 
         return row, column, choice
 
+    def __get_option(self):
+        while True:
+            choice = input("enter to continue, or r:restart")
+            if choice in ["", "r"]:
+                break
+            else:
+                print("invalid input")
+        return choice
+
     def run(self):
         size, difficulty = self.__get_grid_settings()
         self.__game.set_grid_size(size)
@@ -246,5 +255,12 @@ class Terminal(Ui):
             row, col, choice = self.__get_input()
             if self.__game.is_valid(row, col, choice):
                 self.__game.play(row, col, choice)
+
+            choice = self.__get_option()
+            if choice == "c":
+                continue
+            elif choice == "r":
+                self.__game.restart()
+
         print(self.__game)
         print("puzzle correct!")
