@@ -41,6 +41,7 @@ class Game:
         self._board = deepcopy(self.__answer)
 
     def create_grid(self, size, difficulty):
+        # different grid size and difficulties currently load from example files
         if size == 4:
             fileans = "game1ans.txt"
             if difficulty == 1:
@@ -68,6 +69,7 @@ class Game:
 
         with open(filename) as f:
             file = [l.split(",") for l in f.read().splitlines()]
+        # replacing inequalities orientation for displaying
         for i in range(1, len(file), 2):
             for j in range(0, len(file[i]), 2):
                 if file[i][j] == "<":
@@ -84,6 +86,7 @@ class Game:
                 if file[row][col] != " ":
                     fixed.append((row // 2 + 1, col // 2 + 1))
 
+        # board has to deepcopy as lists are mutable and board is 2d
         self.file = file
         self._board = deepcopy(self.file)
         self.__answer = answer
@@ -131,6 +134,7 @@ class Game:
             print("no moves to undo")
 
     def mistakefound(self):
+        # returns true if a mistake is found in player's entered aswers
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
                 if (

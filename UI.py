@@ -10,7 +10,6 @@ class Ui(ABC):
 
 
 class Gui(Ui):
-    # TODO: create futoshiki grid
     MARGIN = 20
     SIDE = 50
 
