@@ -88,12 +88,9 @@ class Game:
 
     def check(self):
         # return True if answer = current board
-        for row in range(len(self._board)):
-            for col in range(len(self._board[row])):
-                if self._board[row][col] != self.__answer[row][col] and (
-                    self._board[row][col] not in [">", "<", "^", "v"]
-                    or self.__answer[row][col] not in [">", "<", "^", "v"]
-                ):
+        for row in range(0, len(self._board), 2):
+            for col in range(0, len(self._board[row]), 2):
+                if self._board[row][col] != self.__answer[row][col]:
                     return False
         return True
 
@@ -129,6 +126,16 @@ class Game:
             self.__moves.pop()
         else:
             print("no moves to undo")
+
+    def mistakefound(self):
+        for row in range(0, len(self._board), 2):
+            for col in range(0, len(self._board[row]), 2):
+                if (
+                    self._board[row][col] != self.__answer[row][col]
+                    and self._board[row][col] != Game.EMPTY
+                ):
+                    return True
+        return False
 
 
 if __name__ == "__main__":
