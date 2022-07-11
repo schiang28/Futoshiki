@@ -37,6 +37,9 @@ class Game:
     def set_grid_size(self, value):
         self._grid_size = value
 
+    def show_answer(self):
+        self._board = deepcopy(self.__answer)
+
     def create_grid(self, size, difficulty):
         if size == 4:
             fileans = "game1ans.txt"
