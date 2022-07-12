@@ -19,6 +19,7 @@ class Gui(Ui):
     def __init__(self):
         self.__game_win = None
         self.__help_win = None
+        self.__login_win = None
         root = Tk()
         root.title("Futoshiki")
         root.geometry("500x500")
@@ -57,7 +58,7 @@ class Gui(Ui):
         self.__console = console
 
         self.__canvas = Canvas(game_win, width=self.__width, height=self.__height)
-        self.__canvas.pack(side=LEFT)
+        self.__canvas.pack(side=LEFT, padx=(20, 0))
 
         self.__draw_grid()
         self.__draw_puzzle()
@@ -161,7 +162,37 @@ class Gui(Ui):
             self.__draw_cursor()
 
     def __login(self):
-        pass
+        if self.__login_win:
+            return
+
+        login_win = Toplevel(self.__root)
+        login_win.title("Login")
+        login_win.geometry("400x400")
+        self.__login_win = login_win
+
+        user_label = Label(login_win, text="Username:").pack(side=TOP, pady=(50, 0))
+        username = StringVar()
+        user_entry = Entry(login_win, textvariable=username).pack(side=TOP)
+        passw_label = Label(login_win, text="Password:").pack(side=TOP)
+        password = StringVar()
+        passw_entry = Entry(login_win, textvariable=password).pack(side=TOP)
+
+        dismiss_button = Button(
+            login_win,
+            text="Dismiss",
+            command=self.__dismiss_login_win,
+            width=20,
+            height=2,
+        )
+        dismiss_button.pack(side=BOTTOM)
+
+        newacc_button = Button(
+            login_win, text="Create New Account", command=None, width=20, height=2
+        )
+        newacc_button.pack(side=BOTTOM)
+
+        enter_button = Button(login_win, text="Enter", command=None, width=20, height=2)
+        enter_button.pack(side=BOTTOM)
 
     def __help(self):
         if self.__help_win:
@@ -178,9 +209,14 @@ class Gui(Ui):
         text = Text(help_win)
         text.pack(expand=True, fill="both")
         text.insert(END, rules)
+        text.configure(state="disabled")
 
         dismiss_button = Button(
-            help_win, text="Dismiss", command=self.__dismiss_help_win, width=10, heigh=2
+            help_win,
+            text="Dismiss",
+            command=self.__dismiss_help_win,
+            width=10,
+            height=2,
         )
         dismiss_button.pack(side=BOTTOM)
 
@@ -194,6 +230,10 @@ class Gui(Ui):
     def __dismiss_help_win(self):
         self.__help_win.destroy()
         self.__help_win = None
+
+    def __dismiss_login_win(self):
+        self.__login_win.destroy()
+        self.__login_win = None
 
     def __complete(self):
         self.__console.configure(state="normal")
