@@ -20,13 +20,17 @@ class Gui(Ui):
         self.__game_win = None
         self.__help_win = None
         self.__login_win = None
+        self.__opt_win = None
+
         root = Tk()
         root.title("Futoshiki")
         root.geometry("500x500")
         frame = Frame(root)
         frame.pack()
 
-        Button(frame, text="Play", command=self.__play_game, height=2, width=25).pack()
+        Button(
+            frame, text="Play", command=self.__select_options, height=2, width=25
+        ).pack()
         Button(frame, text="Login", command=self.__login, height=2).pack(fill=X)
         Button(frame, text="Help", command=self.__help, height=2).pack(fill=X)
         Button(frame, text="Quit", command=self.__quit, height=2).pack(fill=X)
@@ -38,9 +42,8 @@ class Gui(Ui):
             return
 
         self.__game = Game()
-        self.__game.set_grid_size(5)
-        # needs to be variables eventually
-        self.__game.create_grid(5, 1)
+        self.__game.set_grid_size(self.__size)
+        self.__game.create_grid(self.__size, self.__difficulty)
 
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
@@ -170,12 +173,13 @@ class Gui(Ui):
         login_win.geometry("400x400")
         self.__login_win = login_win
 
-        user_label = Label(login_win, text="Username:").pack(side=TOP, pady=(50, 0))
+        # allows user to enter uername and password text boxes
+        Label(login_win, text="Username:").pack(side=TOP, pady=(50, 0))
         username = StringVar()
-        user_entry = Entry(login_win, textvariable=username).pack(side=TOP)
-        passw_label = Label(login_win, text="Password:").pack(side=TOP)
+        Entry(login_win, textvariable=username).pack(side=TOP)
+        Label(login_win, text="Password:").pack(side=TOP)
         password = StringVar()
-        passw_entry = Entry(login_win, textvariable=password).pack(side=TOP)
+        Entry(login_win, textvariable=password).pack(side=TOP)
 
         dismiss_button = Button(
             login_win,
@@ -220,6 +224,44 @@ class Gui(Ui):
         )
         dismiss_button.pack(side=BOTTOM)
 
+    def __select_options(self):
+        if self.__opt_win:
+            return
+
+        opt_win = Tk()
+        opt_win.title("Configure Grid Settings")
+        opt_win.geometry("400x400")
+        self.__opt_win = opt_win
+
+        # drop down menus for grid size and difficulty
+        Label(opt_win, text="Please select grid size:").pack(side=TOP, pady=(50, 0))
+        self.__size = StringVar(opt_win)
+        self.__size.set("4x4")
+        OptionMenu(opt_win, self.__size, "4x4", "5x5", "6x6", "7x7").pack(side=TOP)
+
+        Label(opt_win, text="Please select difficulty:").pack(side=TOP)
+        self.__difficulty = StringVar(opt_win)
+        self.__difficulty.set("1. easy")
+        OptionMenu(opt_win, self.__difficulty, "1. easy", "2. hard").pack(side=TOP)
+
+        dismiss_button = Button(
+            opt_win, text="Dismiss", command=self.__dismiss_opt_win, width=10, height=2,
+        )
+        dismiss_button.pack(side=BOTTOM)
+
+        done_button = Button(
+            opt_win, text="Done", command=self.__configured, width=10, height=2,
+        )
+        done_button.pack(side=BOTTOM)
+
+    def __configured(self):
+        # gets what is in the drop down menus, parsing
+        self.__size = int(self.__size.get()[0])
+        self.__difficulty = int(self.__difficulty.get()[0])
+        self.__opt_win.destroy()
+        self.__opt_win = None
+        self.__play_game()
+
     def __quit(self):
         self.__root.quit()
 
@@ -234,6 +276,10 @@ class Gui(Ui):
     def __dismiss_login_win(self):
         self.__login_win.destroy()
         self.__login_win = None
+
+    def __dismiss_opt_win(self):
+        self.__opt_win.destroy()
+        self.__opt_win = None
 
     def __complete(self):
         self.__console.configure(state="normal")
