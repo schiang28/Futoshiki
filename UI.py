@@ -152,9 +152,9 @@ class Gui(Ui):
             and self.__row % 2 == 0
             and self.__col % 2 == 0
             and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
-            and (event.char in "123456789" or event.keysym == "BackSpace")
+            and (event.char in "1234567" or event.keysym == "BackSpace")
         ):
-            if event.char in "123456789":
+            if event.char in "1234567":
                 self.__game.set_board(self.__row, self.__col, str(int(event.char)))
             else:
                 self.__game.set_board(self.__row, self.__col, self.__game.EMPTY)
@@ -283,12 +283,25 @@ class Gui(Ui):
 
     def __complete(self):
         self.__console.configure(state="normal")
+        self.__console.delete("1.0", END)
         self.__console.insert(END, "puzzle correct!")
         self.__console.tag_add("center", "1.0", "end")
         self.__console.configure(state="disabled")
 
     def __check(self):
-        pass
+        if self.__game.check():
+            return
+
+        self.__console.configure(state="normal")
+        self.__console.delete("1.0", END)
+
+        mistake = self.__game.mistakefound()
+        if mistake:
+            self.__console.insert(END, "mistakes found")
+        else:
+            self.__console.insert(END, "no mistakes found")
+        self.__console.tag_add("center", "1.0", "end")
+        self.__console.configure(state="disabled")
 
     def run(self):
         self.__root.mainloop()
