@@ -1,0 +1,9 @@
+Rules of Futoshiki
+
+1. The game is played on an nxn grid. You can choose what grid size and difficulty.
+
+2. The objective of the user is to fill in the grid such that each row and column only contains one digit of 1 to n (like a Latin Square).
+
+3. Some digits may be given at the start.
+
+4. Inequality constraints are specified between some adjacent cells. This indicates if a number has to be higher or lower than its neighbour.

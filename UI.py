@@ -18,6 +18,7 @@ class Gui(Ui):
 
     def __init__(self):
         self.__game_win = None
+        self.__help_win = None
         root = Tk()
         root.title("Futoshiki")
         root.geometry("500x500")
@@ -163,7 +164,25 @@ class Gui(Ui):
         pass
 
     def __help(self):
-        pass
+        if self.__help_win:
+            return
+
+        help_win = Toplevel(self.__root)
+        help_win.title("Help")
+        help_win.geometry("400x400")
+        self.__help_win = help_win
+
+        with open("rules.txt") as f:
+            rules = f.read()
+
+        text = Text(help_win)
+        text.pack(expand=True, fill="both")
+        text.insert(END, rules)
+
+        dismiss_button = Button(
+            help_win, text="Dismiss", command=self.__dismiss_help_win, width=10, heigh=2
+        )
+        dismiss_button.pack(side=BOTTOM)
 
     def __quit(self):
         self.__root.quit()
@@ -171,6 +190,10 @@ class Gui(Ui):
     def __dismiss_game_win(self):
         self.__game_win.destroy()
         self.__game_win = None
+
+    def __dismiss_help_win(self):
+        self.__help_win.destroy()
+        self.__help_win = None
 
     def __complete(self):
         self.__console.configure(state="normal")
