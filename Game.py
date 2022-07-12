@@ -124,6 +124,7 @@ class Game:
 
     def restart(self):
         self._board = deepcopy(self.file)
+        self.__moves = []
 
     def undo(self):
         if len(self.__moves) > 0:

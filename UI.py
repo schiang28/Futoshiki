@@ -24,9 +24,9 @@ class Gui(Ui):
         frame = Frame(root)
         frame.pack()
 
-        Button(frame, text="Play", command=self.__play_game, height=2, width=30).pack(
-            fill=X
-        )
+        Button(frame, text="Play", command=self.__play_game, height=2, width=25).pack()
+        Button(frame, text="Login", command=self.__login, height=2).pack(fill=X)
+        Button(frame, text="Help", command=self.__help, height=2).pack(fill=X)
         Button(frame, text="Quit", command=self.__quit, height=2).pack(fill=X)
 
         self.__root = root
@@ -67,10 +67,10 @@ class Gui(Ui):
         # stage 2.2 dismiss and check buttons on game window
         self.__game_win = game_win
         dismiss_button = Button(
-            game_win, text="Dismiss", command=self.__dismiss_game_win
+            game_win, text="Dismiss", command=self.__dismiss_game_win, width=10
         )
         dismiss_button.pack(ipadx=10, ipady=10, expand=True)
-        check_button = Button(game_win, text="Check", command=self.__check)
+        check_button = Button(game_win, text="Check", command=self.__check, width=10)
         check_button.pack(ipadx=10, ipady=10, expand=True)
 
     def __draw_grid(self):
@@ -158,6 +158,12 @@ class Gui(Ui):
                 self.__complete()
             self.__draw_puzzle()
             self.__draw_cursor()
+
+    def __login(self):
+        pass
+
+    def __help(self):
+        pass
 
     def __quit(self):
         self.__root.quit()
