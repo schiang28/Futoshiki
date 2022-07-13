@@ -1,5 +1,6 @@
 from Colors import color
 from copy import deepcopy
+from random import choice
 
 
 class Game:
@@ -148,6 +149,20 @@ class Game:
                 ):
                     return True
         return False
+
+    def get_hint(self):
+        empty_cells = []
+        for row in range(0, len(self._board), 2):
+            for col in range(0, len(self._board[row]), 2):
+                if (
+                    self._board[row][col] == Game.EMPTY
+                    and (row, col) not in self.__fixed
+                ):
+                    empty_cells.append((row, col))
+
+        rand_cell = choice(empty_cells)
+        rand_ans = self.__answer[rand_cell[0]][rand_cell[1]]
+        self._board[rand_cell[0]][rand_cell[1]] = rand_ans
 
 
 if __name__ == "__main__":

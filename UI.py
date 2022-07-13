@@ -388,7 +388,14 @@ class Gui(Ui):
         pass
 
     def __hint(self):
-        pass
+        if self.__game.check():
+            return
+
+        self.__game.get_hint()
+        self.__draw_puzzle()
+
+        if self.__game.check():
+            self.__complete()
 
     def run(self):
         self.__root.mainloop()

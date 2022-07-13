@@ -1,4 +1,4 @@
-x = "2344"
-print(set(x))
-for i in set(x):
-    print(i)
+ls = [(1, 2), (2, 3), (5, 12)]
+from random import choice
+
+print(choice(ls))
