@@ -122,7 +122,7 @@ class Gui(Ui):
                     )
                 else:
                     # CALCULATIONS FOR PENCIL MARKINGS
-                    for i in set(numbers[row][col]):
+                    for i in numbers[row][col]:
                         if i == "1":
                             self.__canvas.create_text(
                                 Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 6,
@@ -228,9 +228,10 @@ class Gui(Ui):
             if event.char in "1234567":
                 # allows user to type in multiple numbers
                 num = self.__game.get_board_num(self.__row, self.__col)
-                self.__game.set_board(
-                    self.__row, self.__col, (num + str(event.char)).strip()
-                )
+                if event.char not in num:
+                    self.__game.set_board(
+                        self.__row, self.__col, (num + str(event.char)).strip()
+                    )
             else:
                 self.__game.set_board(self.__row, self.__col, self.__game.EMPTY)
 
@@ -386,7 +387,17 @@ class Gui(Ui):
         self.__console.configure(state="disabled")
 
     def __undo(self):
-        pass
+        if self.__game.check():
+            return
+
+        if self.__game.undo() > 0:
+            self.__draw_puzzle()
+        else:
+            self.__console.configure(state="normal")
+            self.__console.delete("1.0", END)
+            self.__console.insert(END, "no moves to undo")
+            self.__console.tag_add("center", "1.0", "end")
+            self.__console.configure(state="disabled")
 
     def __answer(self):
         pass
@@ -491,7 +502,8 @@ class Terminal(Ui):
                 self.__game.restart()
                 continue
             elif choice == "u":
-                self.__game.undo()
+                if self.__game.undo() < 0:
+                    print("no moves to undo")
                 continue
             elif choice == "c":
                 if self.__game.mistakefound():

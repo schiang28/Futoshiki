@@ -136,8 +136,9 @@ class Game:
             undomove = self.__moves[-1]
             self._board[undomove[0]][undomove[1]] = undomove[2]
             self.__moves.pop()
+            return 1
         else:
-            print("no moves to undo")
+            return -1
 
     def mistakefound(self):
         # returns true if a mistake is found in player's entered answers. Ignores pencil markings and empty cells
