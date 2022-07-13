@@ -77,6 +77,16 @@ class Gui(Ui):
         dismiss_button.pack(ipadx=10, ipady=10, expand=True)
         check_button = Button(game_win, text="Check", command=self.__check, width=10)
         check_button.pack(ipadx=10, ipady=10, expand=True)
+        restart_button = Button(
+            game_win, text="Restart", command=self.__restart, width=10
+        )
+        restart_button.pack(ipadx=10, ipady=10, expand=True)
+        undo_button = Button(game_win, text="Undo", command=self.__undo, width=10)
+        undo_button.pack(ipadx=10, ipady=10, expand=True)
+        answer_button = Button(game_win, text="Answer", command=self.__answer, width=10)
+        answer_button.pack(ipadx=10, ipady=10, expand=True)
+        hint_button = Button(game_win, text="Hint", command=self.__hint, width=10)
+        hint_button.pack(ipadx=10, ipady=10, expand=True)
 
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
@@ -367,6 +377,18 @@ class Gui(Ui):
             self.__console.insert(END, "no mistakes found")
         self.__console.tag_add("center", "1.0", "end")
         self.__console.configure(state="disabled")
+
+    def __restart(self):
+        pass
+
+    def __undo(self):
+        pass
+
+    def __answer(self):
+        pass
+
+    def __hint(self):
+        pass
 
     def run(self):
         self.__root.mainloop()
