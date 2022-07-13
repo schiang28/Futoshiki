@@ -138,12 +138,13 @@ class Game:
             print("no moves to undo")
 
     def mistakefound(self):
-        # returns true if a mistake is found in player's entered aswers
+        # returns true if a mistake is found in player's entered answers. Ignores pencil markings and empty cells
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
                 if (
                     self._board[row][col] != self.__answer[row][col]
                     and self._board[row][col] != Game.EMPTY
+                    and len(self._board[row][col]) == 1
                 ):
                     return True
         return False
