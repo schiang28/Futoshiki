@@ -32,6 +32,7 @@ class Game:
         return self._board[row][col]
 
     def set_board(self, row, col, value):
+        self.__moves.append((row, col, self._board[row][col]))
         self._board[row][col] = value
 
     @property
@@ -160,9 +161,14 @@ class Game:
                 ):
                     empty_cells.append((row, col))
 
-        rand_cell = choice(empty_cells)
-        rand_ans = self.__answer[rand_cell[0]][rand_cell[1]]
-        self._board[rand_cell[0]][rand_cell[1]] = rand_ans
+        try:
+            rand_cell = choice(empty_cells)
+            rand_ans = self.__answer[rand_cell[0]][rand_cell[1]]
+            self._board[rand_cell[0]][rand_cell[1]] = rand_ans
+            self.__moves.append((rand_cell[0], rand_cell[1], Game.EMPTY))
+            return 1
+        except:
+            return -1
 
 
 if __name__ == "__main__":

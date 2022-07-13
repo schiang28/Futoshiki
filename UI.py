@@ -395,8 +395,14 @@ class Gui(Ui):
         if self.__game.check():
             return
 
-        self.__game.get_hint()
-        self.__draw_puzzle()
+        if self.__game.get_hint() > 0:
+            self.__draw_puzzle()
+        else:
+            self.__console.configure(state="normal")
+            self.__console.delete("1.0", END)
+            self.__console.insert(END, "hints can only be used on empty cells")
+            self.__console.tag_add("center", "1.0", "end")
+            self.__console.configure(state="disabled")
 
         if self.__game.check():
             self.__complete()
