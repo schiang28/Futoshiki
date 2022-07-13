@@ -243,7 +243,8 @@ class Gui(Ui):
             self.__draw_cursor()
 
     def __login(self):
-        if self.__login_win:
+        # don't open if game, option of login window already open
+        if self.__login_win or self.__game_win or self.__opt_win:
             return
 
         login_win = Toplevel(self.__root)
@@ -303,7 +304,7 @@ class Gui(Ui):
         dismiss_button.pack(side=BOTTOM)
 
     def __select_options(self):
-        if self.__opt_win:
+        if self.__opt_win or self.__game_win or self.__login_win:
             return
 
         opt_win = Tk()
