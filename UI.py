@@ -102,12 +102,73 @@ class Gui(Ui):
         numbers = self.__game.get_board
         for row in range(len(numbers)):
             for col in range(len(numbers[row])):
-                self.__canvas.create_text(
-                    Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
-                    Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
-                    text=numbers[row][col],
-                    tags="numbers",
-                )
+                if len(numbers[row][col]) == 1:
+                    self.__canvas.create_text(
+                        Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
+                        Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
+                        text=numbers[row][col],
+                        tags="numbers",
+                        font=("Arial", 15),
+                    )
+                else:
+                    # CALCULATIONS FOR PENCIL MARKINGS
+                    for i in set(numbers[row][col]):
+                        if i == "1":
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 6,
+                                Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 6,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
+                        elif i == "2":
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
+                                Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 6,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
+                        elif i == "3":
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + 5 * Gui.SIDE / 6,
+                                Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 6,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
+                        elif i == "4":
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 6,
+                                Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
+                        elif i == "5":
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
+                                Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
+                        elif i == "6":
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + 5 * Gui.SIDE / 6,
+                                Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
+                        else:
+                            self.__canvas.create_text(
+                                Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 6,
+                                Gui.MARGIN + row * Gui.SIDE + 5 * Gui.SIDE / 6,
+                                text=i,
+                                tags="numbers",
+                                font=("Arial", 10),
+                            )
 
     def __cell_clicked(self, event):
         if self.__game.check():

@@ -1,2 +1,4 @@
-x = " 4"
-print(int(x) + 2)
+x = "2344"
+print(set(x))
+for i in set(x):
+    print(i)
