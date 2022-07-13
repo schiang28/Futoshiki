@@ -400,7 +400,16 @@ class Gui(Ui):
             self.__console.configure(state="disabled")
 
     def __answer(self):
-        pass
+        if self.__game.check():
+            return
+
+        self.__game.show_answer()
+        self.__draw_puzzle()
+        self.__console.configure(state="normal")
+        self.__console.delete("1.0", END)
+        self.__console.insert(END, "solution to puzzle:")
+        self.__console.tag_add("center", "1.0", "end")
+        self.__console.configure(state="disabled")
 
     def __hint(self):
         if self.__game.check():

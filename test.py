@@ -1,4 +1,7 @@
-ls = [(1, 2), (2, 3), (5, 12)]
-from random import choice
+ls = [1, 4, 5]
+x = [3, 8, 9]
 
-print(choice(ls))
+ls[1] = x[1]
+ls[1] = 5
+print(ls)
+print(x)

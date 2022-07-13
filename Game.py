@@ -43,7 +43,9 @@ class Game:
         self._grid_size = value
 
     def show_answer(self):
-        self._board = deepcopy(self.__answer)
+        for row in range(0, len(self._board), 2):
+            for col in range(0, len(self._board[row]), 2):
+                self._board[row][col] = self.__answer[row][col]
 
     def create_grid(self, size, difficulty):
         # different grid size and difficulties currently load from example files
