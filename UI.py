@@ -155,7 +155,11 @@ class Gui(Ui):
             and (event.char in "1234567" or event.keysym == "BackSpace")
         ):
             if event.char in "1234567":
-                self.__game.set_board(self.__row, self.__col, str(int(event.char)))
+                # allows user to type in multiple numbers
+                num = self.__game.get_board_num(self.__row, self.__col)
+                self.__game.set_board(
+                    self.__row, self.__col, (num + str(event.char)).strip()
+                )
             else:
                 self.__game.set_board(self.__row, self.__col, self.__game.EMPTY)
 

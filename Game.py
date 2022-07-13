@@ -27,6 +27,9 @@ class Game:
     def get_board(self):
         return self._board
 
+    def get_board_num(self, row, col):
+        return self._board[row][col]
+
     def set_board(self, row, col, value):
         self._board[row][col] = value
 
