@@ -379,7 +379,11 @@ class Gui(Ui):
         self.__console.configure(state="disabled")
 
     def __restart(self):
-        pass
+        self.__game.restart()
+        self.__draw_puzzle()
+        self.__console.configure(state="normal")
+        self.__console.delete("1.0", END)
+        self.__console.configure(state="disabled")
 
     def __undo(self):
         pass
