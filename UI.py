@@ -48,8 +48,8 @@ class Gui(Ui):
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
 
-        # geometry has to be a variable for different grid sizes
-        game_win.geometry("800x500")
+        x, y = str(200 * self.__size), str(self.__size * 100 + 100)
+        game_win.geometry(x + "x" + y)
         self.__width = self.__height = Gui.MARGIN * 2 + Gui.SIDE * (
             self.__game.get_grid_size * 2 - 1
         )
@@ -87,6 +87,8 @@ class Gui(Ui):
         answer_button.pack(ipadx=10, ipady=10, expand=True)
         hint_button = Button(game_win, text="Hint", command=self.__hint, width=10)
         hint_button.pack(ipadx=10, ipady=10, expand=True)
+        save_button = Button(game_win, text="Save", command=self.__save, width=10)
+        save_button.pack(ipadx=10, ipady=10, expand=True)
 
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
@@ -426,6 +428,19 @@ class Gui(Ui):
 
         if self.__game.check():
             self.__complete()
+
+    def __save(self):
+        self.__console.configure(state="normal")
+        self.__console.delete("1.0", END)
+        if not self.__game.check():
+            self.__console.insert(END, "can only save is puzzle is completed")
+            self.__console.tag_add("center", "1.0", "end")
+            self.__console.configure(state="disabled")
+            return
+        self.__game.save_puzzle()
+        self.__console.insert(END, "saved puzzle")
+        self.__console.tag_add("center", "1.0", "end")
+        self.__console.configure(state="disabled")
 
     def run(self):
         self.__root.mainloop()

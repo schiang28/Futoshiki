@@ -173,6 +173,11 @@ class Game:
         except:
             return -1
 
+    def save_puzzle(self):
+        file = open("puzzle.txt", "w")
+        file.write("\n".join([",".join(i) for i in self.__answer]))
+        file.close()
+
 
 if __name__ == "__main__":
     pass
