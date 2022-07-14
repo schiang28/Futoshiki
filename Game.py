@@ -196,37 +196,31 @@ class Game:
                     return
 
     def __fill_inequalities(self):
-        for row in range(self._grid_size):
-            for col in range(self._grid_size):
-                try:
-                    self.__answer[col * 2 + 1, row * 2] = (
+        for row in range(0, len(self.__answer), 2):
+            for col in range(0, len(self.__answer[row]), 2):
+                if col + 3 <= len(self.__answer):
+                    self.__answer[col + 1, row] = (
                         "<"
-                        if self.__answer[col * 2, row * 2]
-                        < self.__answer[col * 2 + 2, row * 2]
+                        if self.__answer[col, row] < self.__answer[col + 2, row]
                         else ">"
                     )
-                except IndexError:
-                    pass
-                try:
-                    self.__answer[col * 2, row * 2 + 1] = (
+                if row + 3 <= len(self.__answer):
+                    self.__answer[col, row + 1] = (
                         "<"
-                        if self.__answer[col * 2, row * 2]
-                        < self.__answer[col * 2, row * 2 + 2]
+                        if self.__answer[col, row] < self.__answer[col, row + 2]
                         else ">"
                     )
-                except IndexError:
-                    pass
 
     def __solve(self, temp):
-        for row in range(self._grid_size):
-            for col in range(self._grid_size):
-                if temp[row * 2][col * 2] == Game.EMPTY:
+        for row in range(0, len(self.__answer), 2):
+            for col in range(0, len(self.__answer[row]), 2):
+                if temp[row][col] == Game.EMPTY:
                     for n in range(1, self._grid_size + 1):
-                        if self.__possible(temp, row * 2, col * 2, n):
-                            temp[row * 2][col * 2] = n
+                        if self.__possible(temp, row, col, n):
+                            temp[row][col] = n
                             self.__solve(temp)
                             if not (self.__end_solver):
-                                temp[row * 2][col * 2] = Game.EMPTY
+                                temp[row][col] = Game.EMPTY
                     return
         self.__n_solutions += 1
         if self.__n_solutions == 2:
