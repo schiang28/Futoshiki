@@ -55,45 +55,18 @@ class Game:
         self.__board_empty = np.full((size * 2 - 1, size * 2 - 1), Game.EMPTY)
         self.__fill(self.__board_empty)
         self.__fill_inequalities()
-        print(self.__answer, "\n")
 
-        if size == 4:
-            fileans = "game1ans.txt"
-            if difficulty == 1:
-                filename = "game1.txt"
-            else:
-                filename = "game1hard.txt"
-        elif size == 5:
-            fileans = "game2ans.txt"
-            if difficulty == 1:
-                filename = "game2easy.txt"
-            else:
-                filename = "game2hard.txt"
-        elif size == 6:
-            fileans = "game3ans.txt"
-            if difficulty == 1:
-                filename = "game3easy.txt"
-            else:
-                filename = "game3hard.txt"
-        else:
-            fileans = "game4ans.txt"
-            if difficulty == 1:
-                filename = "game4easy.txt"
-            else:
-                filename = "game4hard.txt"
+        self.__temp = deepcopy(self.__answer)
+        self.__cells = list(range((self._grid_size * 2 - 1) ** 2))
+        self.__generate(self.__answer)
+        file = deepcopy(self.__answer)
 
-        with open(filename) as f:
-            file = [l.split(",") for l in f.read().splitlines()]
-        # replacing inequalities orientation for displaying
         for i in range(1, len(file), 2):
             for j in range(0, len(file[i]), 2):
                 if file[i][j] == "<":
                     file[i][j] = "^"
                 if file[i][j] == ">":
                     file[i][j] = "v"
-
-        with open(fileans) as f:
-            answer = [l.split(",") for l in f.read().splitlines()]
 
         fixed = []
         for row in range(0, len(file), 2):
@@ -102,9 +75,9 @@ class Game:
                     fixed.append((row // 2 + 1, col // 2 + 1))
 
         # board has to deepcopy as lists are mutable and board is 2d
-        self.file = file
+        self.file = deepcopy(file)
         self._board = deepcopy(self.file)
-        self.__answer = answer
+        self.__answer = deepcopy(self.__temp)
         self.__fixed = fixed
 
     def check(self):
@@ -193,24 +166,24 @@ class Game:
 
         # checking for inequalities
         if row > 0 and board[row - 2][col] != Game.EMPTY:
-            if board[row - 1][col] == "<" and val < board[row - 2][col]:
+            if board[row - 1][col] == "<" and val < int(board[row - 2][col]):
                 return False
-            if board[row - 1][col] == ">" and val > board[row - 2][col]:
+            if board[row - 1][col] == ">" and val > int(board[row - 2][col]):
                 return False
         if row < self._grid_size * 2 - 2 and board[row + 2][col] != Game.EMPTY:
-            if board[row + 1][col] == "<" and val > board[row + 2][col]:
+            if board[row + 1][col] == "<" and val > int(board[row + 2][col]):
                 return False
-            if board[row + 1][col] == ">" and val < board[row + 2][col]:
+            if board[row + 1][col] == ">" and val < int(board[row + 2][col]):
                 return False
         if col > 0 and board[row][col - 2] != Game.EMPTY:
-            if board[row][col - 1] == "<" and val < board[row][col - 2]:
+            if board[row][col - 1] == "<" and val < int(board[row][col - 2]):
                 return False
-            if board[row][col - 1] == ">" and val > board[row][col - 2]:
+            if board[row][col - 1] == ">" and val > int(board[row][col - 2]):
                 return False
         if col < self._grid_size * 2 - 2 and board[row][col + 2] != Game.EMPTY:
-            if board[row][col + 1] == "<" and val > board[row][col + 2]:
+            if board[row][col + 1] == "<" and val > int(board[row][col + 2]):
                 return False
-            if board[row][col + 1] == ">" and val < board[row][col + 2]:
+            if board[row][col + 1] == ">" and val < int(board[row][col + 2]):
                 return False
 
         return True
@@ -218,14 +191,14 @@ class Game:
     def __fill(self, board):
         for row in range(0, self._grid_size * 2, 2):
             for col in range(0, self._grid_size * 2, 2):
-                if board[row][col] == " ":
+                if board[row][col] == Game.EMPTY:
                     shuffle(self.__numbers)
                     for n in self.__numbers:
                         if self.__possible(board, row, col, n):
                             board[row][col] = n
-                            if " " in board[::2, ::2]:
+                            if Game.EMPTY in board[::2, ::2]:
                                 self.__fill(board)
-                                board[row][col] = " "
+                                board[row][col] = Game.EMPTY
                             else:
                                 self.__answer = np.copy(board)
                     return
@@ -251,6 +224,35 @@ class Game:
                     )
                 except IndexError:
                     pass
+
+    def __solve(self, board):
+        for row in range(self._grid_size):
+            for col in range(self._grid_size):
+                if board[row * 2][col * 2] == Game.EMPTY:
+                    for n in range(1, self._grid_size + 1):
+                        if self.__possible(board, row * 2, col * 2, n):
+                            board[row * 2][col * 2] = n
+                            self.__solve(board)
+                            if not (self.__end_solver):
+                                board[row * 2][col * 2] = Game.EMPTY
+                    return
+        self.__n_solutions += 1
+        if self.__n_solutions == 2:
+            self.__end_solver = True
+
+    def __generate(self, board):
+        shuffle(self.__cells)
+        for i in range((self._grid_size * 2 - 1) ** 2):
+            row = self.__cells[i] // (self._grid_size * 2 - 1)
+            col = self.__cells[i] % (self._grid_size * 2 - 1)
+            backup = board[row][col]
+            board[row][col] = Game.EMPTY
+            board_copy = np.copy(board)
+            self.__n_solutions = 0
+            self.__end_solver = False
+            self.__solve(board_copy)
+            if self.__n_solutions != 1:
+                board[row][col] = backup
 
 
 if __name__ == "__main__":
