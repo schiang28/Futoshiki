@@ -1,6 +1,8 @@
+from telnetlib import GA
 from Colors import color
 from copy import deepcopy
-from random import choice
+from random import choice, shuffle
+import numpy as np
 
 
 class Game:
@@ -49,6 +51,11 @@ class Game:
 
     def create_grid(self, size, difficulty):
         # different grid size and difficulties currently load from example files
+        self.__numbers = list(range(1, size + 1))
+        self.__board_empty = np.full((size * 2 - 1, size * 2 - 1), Game.EMPTY)
+        self.fill(self.__board_empty)
+        print(self.__answer, "\n")
+
         if size == 4:
             fileans = "game1ans.txt"
             if difficulty == 1:
@@ -177,6 +184,50 @@ class Game:
         file = open("puzzle.txt", "w")
         file.write("\n".join([",".join(i) for i in self.__answer]))
         file.close()
+
+    def possible(self, board, row, col, val):
+        for i in range(self._grid_size):
+            if board[row][i * 2] == str(val) or board[i * 2][col] == str(val):
+                return False
+
+        # checking for inequalities
+        if row > 0 and board[row - 2][col] != Game.EMPTY:
+            if board[row - 1][col] == "<" and val < board[row - 2][col]:
+                return False
+            if board[row - 1][col] == ">" and val > board[row - 2][col]:
+                return False
+        if row < self._grid_size * 2 - 2 and board[row + 2][col] != Game.EMPTY:
+            if board[row + 1][col] == "<" and val > board[row + 2][col]:
+                return False
+            if board[row + 1][col] == ">" and val < board[row + 2][col]:
+                return False
+        if col > 0 and board[row][col - 2] != Game.EMPTY:
+            if board[row][col - 1] == "<" and val < board[row][col - 2]:
+                return False
+            if board[row][col - 1] == ">" and val > board[row][col - 2]:
+                return False
+        if col < self._grid_size * 2 - 2 and board[row][col + 2] != Game.EMPTY:
+            if board[row][col + 1] == "<" and val > board[row][col + 2]:
+                return False
+            if board[row][col + 1] == ">" and val < board[row][col + 2]:
+                return False
+
+        return True
+
+    def fill(self, board):
+        for row in range(0, self._grid_size * 2, 2):
+            for col in range(0, self._grid_size * 2, 2):
+                if board[row][col] == " ":
+                    shuffle(self.__numbers)
+                    for n in self.__numbers:
+                        if self.possible(board, row, col, n):
+                            board[row][col] = n
+                            if " " in board[::2, ::2]:
+                                self.fill(board)
+                                board[row][col] = " "
+                            else:
+                                self.__answer = np.copy(board)
+                    return
 
 
 if __name__ == "__main__":
