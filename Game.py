@@ -53,7 +53,8 @@ class Game:
         # different grid size and difficulties currently load from example files
         self.__numbers = list(range(1, size + 1))
         self.__board_empty = np.full((size * 2 - 1, size * 2 - 1), Game.EMPTY)
-        self.fill(self.__board_empty)
+        self.__fill(self.__board_empty)
+        self.__fill_inequalities()
         print(self.__answer, "\n")
 
         if size == 4:
@@ -185,7 +186,7 @@ class Game:
         file.write("\n".join([",".join(i) for i in self.__answer]))
         file.close()
 
-    def possible(self, board, row, col, val):
+    def __possible(self, board, row, col, val):
         for i in range(self._grid_size):
             if board[row][i * 2] == str(val) or board[i * 2][col] == str(val):
                 return False
@@ -214,20 +215,42 @@ class Game:
 
         return True
 
-    def fill(self, board):
+    def __fill(self, board):
         for row in range(0, self._grid_size * 2, 2):
             for col in range(0, self._grid_size * 2, 2):
                 if board[row][col] == " ":
                     shuffle(self.__numbers)
                     for n in self.__numbers:
-                        if self.possible(board, row, col, n):
+                        if self.__possible(board, row, col, n):
                             board[row][col] = n
                             if " " in board[::2, ::2]:
-                                self.fill(board)
+                                self.__fill(board)
                                 board[row][col] = " "
                             else:
                                 self.__answer = np.copy(board)
                     return
+
+    def __fill_inequalities(self):
+        for row in range(self._grid_size):
+            for col in range(self._grid_size):
+                try:
+                    self.__answer[col * 2 + 1, row * 2] = (
+                        "<"
+                        if self.__answer[col * 2, row * 2]
+                        < self.__answer[col * 2 + 2, row * 2]
+                        else ">"
+                    )
+                except IndexError:
+                    pass
+                try:
+                    self.__answer[col * 2, row * 2 + 1] = (
+                        "<"
+                        if self.__answer[col * 2, row * 2]
+                        < self.__answer[col * 2, row * 2 + 2]
+                        else ">"
+                    )
+                except IndexError:
+                    pass
 
 
 if __name__ == "__main__":
