@@ -1,5 +1,3 @@
-from telnetlib import GA
-from Colors import color
 from copy import deepcopy
 from random import choice, shuffle
 import numpy as np
@@ -50,12 +48,10 @@ class Game:
                 self._board[row][col] = self.__answer[row][col]
 
     def create_grid(self, size, difficulty):
-        self.__numbers = list(range(1, size + 1))
         self.__board_empty = np.full((size * 2 - 1, size * 2 - 1), Game.EMPTY)
+        self.__cells = list(range((self._grid_size * 2 - 1) ** 2))
         self.__fill(self.__board_empty)
         self.__fill_inequalities()
-
-        self.__cells = list(range((self._grid_size * 2 - 1) ** 2))
         self.__generate()
 
         for i in range(1, len(self.file), 2):
@@ -71,7 +67,7 @@ class Game:
                 if self.file[row][col] != " ":
                     fixed.append((row // 2 + 1, col // 2 + 1))
 
-        # board has to deepcopy as lists are mutable and board is 2d
+        # board has to deepcopy as lists are mutable and board is 2d, have to convert from numpy to list
         self._board = (deepcopy(self.file)).tolist()
         self.__fixed = fixed
 
@@ -184,11 +180,12 @@ class Game:
         return True
 
     def __fill(self, board):
+        numbers = list(range(1, self._grid_size + 1))
         for row in range(0, self._grid_size * 2, 2):
             for col in range(0, self._grid_size * 2, 2):
                 if board[row][col] == Game.EMPTY:
-                    shuffle(self.__numbers)
-                    for n in self.__numbers:
+                    shuffle(numbers)
+                    for n in numbers:
                         if self.__possible(board, row, col, n):
                             board[row][col] = n
                             if Game.EMPTY in board[::2, ::2]:
