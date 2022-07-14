@@ -50,34 +50,29 @@ class Game:
                 self._board[row][col] = self.__answer[row][col]
 
     def create_grid(self, size, difficulty):
-        # different grid size and difficulties currently load from example files
         self.__numbers = list(range(1, size + 1))
         self.__board_empty = np.full((size * 2 - 1, size * 2 - 1), Game.EMPTY)
         self.__fill(self.__board_empty)
         self.__fill_inequalities()
 
-        self.__temp = deepcopy(self.__answer)
         self.__cells = list(range((self._grid_size * 2 - 1) ** 2))
-        self.__generate(self.__answer)
-        file = deepcopy(self.__answer)
+        self.__generate()
 
-        for i in range(1, len(file), 2):
-            for j in range(0, len(file[i]), 2):
-                if file[i][j] == "<":
-                    file[i][j] = "^"
-                if file[i][j] == ">":
-                    file[i][j] = "v"
+        for i in range(1, len(self.file), 2):
+            for j in range(0, len(self.file[i]), 2):
+                if self.file[i][j] == "<":
+                    self.file[i][j] = "^"
+                if self.file[i][j] == ">":
+                    self.file[i][j] = "v"
 
         fixed = []
-        for row in range(0, len(file), 2):
-            for col in range(0, len(file[row]), 2):
-                if file[row][col] != " ":
+        for row in range(0, len(self.file), 2):
+            for col in range(0, len(self.file[row]), 2):
+                if self.file[row][col] != " ":
                     fixed.append((row // 2 + 1, col // 2 + 1))
 
         # board has to deepcopy as lists are mutable and board is 2d
-        self.file = deepcopy(file)
-        self._board = deepcopy(self.file)
-        self.__answer = deepcopy(self.__temp)
+        self._board = (deepcopy(self.file)).tolist()
         self.__fixed = fixed
 
     def check(self):
@@ -225,34 +220,35 @@ class Game:
                 except IndexError:
                     pass
 
-    def __solve(self, board):
+    def __solve(self, temp):
         for row in range(self._grid_size):
             for col in range(self._grid_size):
-                if board[row * 2][col * 2] == Game.EMPTY:
+                if temp[row * 2][col * 2] == Game.EMPTY:
                     for n in range(1, self._grid_size + 1):
-                        if self.__possible(board, row * 2, col * 2, n):
-                            board[row * 2][col * 2] = n
-                            self.__solve(board)
+                        if self.__possible(temp, row * 2, col * 2, n):
+                            temp[row * 2][col * 2] = n
+                            self.__solve(temp)
                             if not (self.__end_solver):
-                                board[row * 2][col * 2] = Game.EMPTY
+                                temp[row * 2][col * 2] = Game.EMPTY
                     return
         self.__n_solutions += 1
         if self.__n_solutions == 2:
             self.__end_solver = True
 
-    def __generate(self, board):
+    def __generate(self):
+        self.file = deepcopy(self.__answer)
         shuffle(self.__cells)
         for i in range((self._grid_size * 2 - 1) ** 2):
             row = self.__cells[i] // (self._grid_size * 2 - 1)
             col = self.__cells[i] % (self._grid_size * 2 - 1)
-            backup = board[row][col]
-            board[row][col] = Game.EMPTY
-            board_copy = np.copy(board)
+            backup = self.file[row][col]
+            self.file[row][col] = Game.EMPTY
+            board_copy = np.copy(self.file)
             self.__n_solutions = 0
             self.__end_solver = False
             self.__solve(board_copy)
             if self.__n_solutions != 1:
-                board[row][col] = backup
+                self.file[row][col] = backup
 
 
 if __name__ == "__main__":
