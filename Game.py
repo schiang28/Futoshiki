@@ -14,6 +14,7 @@ class Game:
         self.__fixed = None
         self.__moves = []
 
+    # displays board to terminal
     def __repr__(self):
         display = "   ".join(str(i + 1) for i in range(self._grid_size)) + "\n"
         display += "----" * (self._grid_size - 1) + "--" + "\n"
@@ -54,6 +55,7 @@ class Game:
         self.__fill_inequalities()
         self.__generate()
 
+        # changing of inequalities for displaying to gui
         for i in range(1, len(self.file), 2):
             for j in range(0, len(self.file[i]), 2):
                 if self.file[i][j] == "<":
@@ -61,6 +63,7 @@ class Game:
                 if self.file[i][j] == ">":
                     self.file[i][j] = "v"
 
+        # list of cells that are fixed and cannot be changed by the user
         fixed = []
         for row in range(0, len(self.file), 2):
             for col in range(0, len(self.file[row]), 2):
@@ -92,6 +95,7 @@ class Game:
         return False
 
     def play(self, row, col, choice):
+        # choice of number is played to respective row and column, this play is appended to a stack of moves
         original = self._board[(row - 1) * 2][(col - 1) * 2]
         if choice != "x":
             self._board[(row - 1) * 2][(col - 1) * 2] = choice
@@ -102,10 +106,12 @@ class Game:
         self.__moves.append(((row - 1) * 2, (col - 1) * 2, original))
 
     def restart(self):
+        # restarts puzzle by recopying original file
         self._board = deepcopy(self.file)
         self.__moves = []
 
     def undo(self):
+        # undo move by popping from moves stack, if stack empty returns -1
         if len(self.__moves) > 0:
             undomove = self.__moves[-1]
             self._board[undomove[0]][undomove[1]] = undomove[2]
@@ -127,6 +133,7 @@ class Game:
         return False
 
     def get_hint(self):
+        # fills in a random non-filled in cell and adds it to moves stack, returns -1 if all cells filled in
         empty_cells = []
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
@@ -146,11 +153,13 @@ class Game:
             return -1
 
     def save_puzzle(self):
+        # saves completed puzzle to file
         file = open("puzzle.txt", "w")
         file.write("\n".join([",".join(i) for i in self.__answer]))
         file.close()
 
     def __possible(self, board, row, col, val):
+        # checks if a value can be played at row and column of board by checking for duplicates and whether it satisfies inequality constraints
         for i in range(self._grid_size):
             if board[row][i * 2] == str(val) or board[i * 2][col] == str(val):
                 return False
@@ -180,6 +189,7 @@ class Game:
         return True
 
     def __fill(self, board):
+        # fills in an initial empty board, to satisfy conditions of latin square
         numbers = list(range(1, self._grid_size + 1))
         for row in range(0, self._grid_size * 2, 2):
             for col in range(0, self._grid_size * 2, 2):
@@ -196,6 +206,7 @@ class Game:
                     return
 
     def __fill_inequalities(self):
+        # fills in all inequality spaces of a full grid
         for row in range(0, len(self.__answer), 2):
             for col in range(0, len(self.__answer[row]), 2):
                 if col + 3 <= len(self.__answer):
@@ -212,6 +223,7 @@ class Game:
                     )
 
     def __solve(self, temp):
+        # checks whether temporary grid is solvable
         for row in range(0, len(self.__answer), 2):
             for col in range(0, len(self.__answer[row]), 2):
                 if temp[row][col] == Game.EMPTY:
@@ -227,6 +239,7 @@ class Game:
             self.__end_solver = True
 
     def __generate(self):
+        # generates puzzle by removing random values and inequalities one by one
         self.file = deepcopy(self.__answer)
         shuffle(self.__cells)
         for i in range((self._grid_size * 2 - 1) ** 2):

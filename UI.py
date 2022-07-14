@@ -22,6 +22,7 @@ class Gui(Ui):
         self.__login_win = None
         self.__opt_win = None
 
+        # main menu screen gui
         root = Tk()
         root.title("Futoshiki")
         root.geometry("500x500")
@@ -48,6 +49,7 @@ class Gui(Ui):
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
 
+        # calculates appropriate sized window
         x, y = str(200 * self.__size), str(self.__size * 100 + 100)
         game_win.geometry(x + "x" + y)
         self.__width = self.__height = Gui.MARGIN * 2 + Gui.SIDE * (
@@ -69,7 +71,7 @@ class Gui(Ui):
         self.__canvas.bind("<Button-1>", self.__cell_clicked)
         self.__canvas.bind("<Key>", self.__key_pressed)
 
-        # stage 2.2 dismiss and check buttons on game window
+        # additional buttons and features when playing
         self.__game_win = game_win
         dismiss_button = Button(
             game_win, text="Dismiss", command=self.__dismiss_game_win, width=10
@@ -93,7 +95,7 @@ class Gui(Ui):
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
             for l in range(self.__game.get_grid_size * 2):
-                # vertical lines
+                # draws vertical lines
                 x0 = Gui.MARGIN + l * Gui.SIDE
                 y0 = Gui.MARGIN + Gui.SIDE * 2 * row
                 x1 = Gui.MARGIN + l * Gui.SIDE
@@ -101,7 +103,7 @@ class Gui(Ui):
                 self.__canvas.create_line(x0, y0, x1, y1)
 
             for l in range(self.__game.get_grid_size):
-                # horizontal lines
+                # draws horizontal lines
                 x0 = Gui.MARGIN + l * 2 * Gui.SIDE
                 y0 = Gui.MARGIN + Gui.SIDE * 2 * row
                 x1 = Gui.MARGIN + l * 2 * Gui.SIDE + Gui.SIDE
@@ -115,6 +117,7 @@ class Gui(Ui):
         for row in range(len(numbers)):
             for col in range(len(numbers[row])):
                 if len(numbers[row][col]) == 1:
+                    # pen marking
                     self.__canvas.create_text(
                         Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
                         Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,
@@ -123,7 +126,7 @@ class Gui(Ui):
                         font=("Arial", 15),
                     )
                 else:
-                    # CALCULATIONS FOR PENCIL MARKINGS
+                    # calculations for pencil markings, splits one cell into 9 grids
                     for i in numbers[row][col]:
                         if i == "1":
                             self.__canvas.create_text(
@@ -209,6 +212,7 @@ class Gui(Ui):
             and self.__col % 2 == 0
             and self.__game.file[self.__row][self.__col] == self.__game.EMPTY
         ):
+            # draws box around appropriate cell
             x0 = Gui.MARGIN + self.__col * Gui.SIDE + 1
             y0 = Gui.MARGIN + self.__row * Gui.SIDE + 1
             x1 = Gui.MARGIN + (self.__col + 1) * Gui.SIDE - 1
@@ -219,6 +223,7 @@ class Gui(Ui):
         if self.__game.check():
             return
 
+        # checks if key pressed is in a non fixed cell
         if (
             self.__row >= 0
             and self.__col >= 0
@@ -278,6 +283,7 @@ class Gui(Ui):
         enter_button.pack(side=BOTTOM)
 
     def __help(self):
+        # opens help window (unless already opened) and displayed information on game
         if self.__help_win:
             return
 
@@ -304,6 +310,7 @@ class Gui(Ui):
         dismiss_button.pack(side=BOTTOM)
 
     def __select_options(self):
+        # doesn't open if an option, game or login window already open
         if self.__opt_win or self.__game_win or self.__login_win:
             return
 
@@ -361,6 +368,7 @@ class Gui(Ui):
         self.__opt_win = None
 
     def __complete(self):
+        # displays message in console to user if puzzle correct
         self.__console.configure(state="normal")
         self.__console.delete("1.0", END)
         self.__console.insert(END, "puzzle correct!")
@@ -368,6 +376,7 @@ class Gui(Ui):
         self.__console.configure(state="disabled")
 
     def __check(self):
+        # checks for mistakes in user's answer and displays message in gui
         if self.__game.check():
             return
 
@@ -383,6 +392,7 @@ class Gui(Ui):
         self.__console.configure(state="disabled")
 
     def __restart(self):
+        # restarts puzzle for user in gui
         self.__game.restart()
         self.__draw_puzzle()
         self.__console.configure(state="normal")
@@ -390,6 +400,7 @@ class Gui(Ui):
         self.__console.configure(state="disabled")
 
     def __undo(self):
+        # undos the user's last move
         if self.__game.check():
             return
 
@@ -403,6 +414,7 @@ class Gui(Ui):
             self.__console.configure(state="disabled")
 
     def __answer(self):
+        # displays the answer of puzzle to user
         if self.__game.check():
             return
 
@@ -415,6 +427,7 @@ class Gui(Ui):
         self.__console.configure(state="disabled")
 
     def __hint(self):
+        # a random non-filled cell will be filled in for the user when pressed
         if self.__game.check():
             return
 
@@ -431,6 +444,7 @@ class Gui(Ui):
             self.__complete()
 
     def __save(self):
+        # saves the solution of a puzzle to a file
         self.__console.configure(state="normal")
         self.__console.delete("1.0", END)
         if not self.__game.check():
@@ -515,10 +529,12 @@ class Terminal(Ui):
         return choice
 
     def run(self):
+        # creates a puzzle based on user selecting size and difficulty
         size, difficulty = self.__get_grid_settings()
         self.__game.set_grid_size(size)
         self.__game.create_grid(size, difficulty)
 
+        # loop unless answer of the puzzle is correct, or user selects answer
         while not self.__game.check():
             print(self.__game)
 
