@@ -243,27 +243,30 @@ class Game:
         # generates puzzle by removing random values and inequalities one by one, more values removed the harder the difficulty
         self.file = deepcopy(self.__answer)
         shuffle(self.__cells)
+        loop = 1
         if self.__difficulty == 1:
             diff = -((self._grid_size * 2 - 1) ** 2 // 2)
         elif self.__difficulty == 2:
             diff = -(self._grid_size * 4)
         else:
             diff = 0
+            loop = 2
 
-        for i in range(len(self.__cells) + diff):
-            row = self.__cells[i] // (self._grid_size * 2 - 1)
-            col = self.__cells[i] % (self._grid_size * 2 - 1)
-            if self.file[row][col] != Game.EMPTY:
-                backup = self.file[row][col]
-                self.file[row][col] = Game.EMPTY
+        for _ in range(loop):
+            for i in range(len(self.__cells) + diff):
+                row = self.__cells[i] // (self._grid_size * 2 - 1)
+                col = self.__cells[i] % (self._grid_size * 2 - 1)
+                if self.file[row][col] != Game.EMPTY:
+                    backup = self.file[row][col]
+                    self.file[row][col] = Game.EMPTY
 
-                board_copy = np.copy(self.file)
-                self.__n_solutions = 0
-                self.__end_solver = False
-                self.__solve(board_copy)
+                    board_copy = np.copy(self.file)
+                    self.__n_solutions = 0
+                    self.__end_solver = False
+                    self.__solve(board_copy)
 
-                if self.__n_solutions != 1:
-                    self.file[row][col] = backup
+                    if self.__n_solutions != 1:
+                        self.file[row][col] = backup
 
 
 if __name__ == "__main__":
