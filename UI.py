@@ -328,7 +328,9 @@ class Gui(Ui):
         Label(opt_win, text="Please select difficulty:").pack(side=TOP)
         self.__difficulty = StringVar(opt_win)
         self.__difficulty.set("1. easy")
-        OptionMenu(opt_win, self.__difficulty, "1. easy", "2. hard").pack(side=TOP)
+        OptionMenu(opt_win, self.__difficulty, "1. easy", "2. medium", "3. hard").pack(
+            side=TOP
+        )
 
         dismiss_button = Button(
             opt_win, text="Dismiss", command=self.__dismiss_opt_win, width=10, height=2,
