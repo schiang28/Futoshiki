@@ -55,7 +55,6 @@ class Game:
         self.__fill(self.__board_empty)
         self.__fill_inequalities()
         self.__generate()
-        print(self.__removed)
 
         # changing of inequalities for displaying to gui
         for i in range(1, len(self.file), 2):
@@ -238,33 +237,33 @@ class Game:
                     return
         self.__n_solutions += 1
         if self.__n_solutions == 2:
-            self.__removed -= 1
             self.__end_solver = True
 
     def __generate(self):
-        # generates puzzle by removing random values and inequalities one by one
+        # generates puzzle by removing random values and inequalities one by one, more values removed the harder the difficulty
         self.file = deepcopy(self.__answer)
         shuffle(self.__cells)
         if self.__difficulty == 1:
-            diff = -20
+            diff = -((self._grid_size * 2 - 1) ** 2 // 2)
         elif self.__difficulty == 2:
-            diff = -10
+            diff = -(self._grid_size * 4)
         else:
             diff = 0
 
         for i in range(len(self.__cells) + diff):
             row = self.__cells[i] // (self._grid_size * 2 - 1)
             col = self.__cells[i] % (self._grid_size * 2 - 1)
-            backup = self.file[row][col]
-            self.file[row][col] = Game.EMPTY
+            if self.file[row][col] != Game.EMPTY:
+                backup = self.file[row][col]
+                self.file[row][col] = Game.EMPTY
 
-            board_copy = np.copy(self.file)
-            self.__n_solutions = 0
-            self.__end_solver = False
-            self.__solve(board_copy)
+                board_copy = np.copy(self.file)
+                self.__n_solutions = 0
+                self.__end_solver = False
+                self.__solve(board_copy)
 
-            if self.__n_solutions != 1:
-                self.file[row][col] = backup
+                if self.__n_solutions != 1:
+                    self.file[row][col] = backup
 
 
 if __name__ == "__main__":
