@@ -21,6 +21,7 @@ class Gui(Ui):
         self.__help_win = None
         self.__login_win = None
         self.__opt_win = None
+        self.__register_win = None
 
         # main menu screen gui
         root = Tk()
@@ -259,11 +260,11 @@ class Gui(Ui):
 
         # allows user to enter uername and password text boxes
         Label(login_win, text="Username:").pack(side=TOP, pady=(50, 0))
-        username = StringVar()
-        Entry(login_win, textvariable=username).pack(side=TOP)
+        self.__username = StringVar()
+        Entry(login_win, textvariable=self.__username).pack(side=TOP)
         Label(login_win, text="Password:").pack(side=TOP)
-        password = StringVar()
-        Entry(login_win, textvariable=password).pack(side=TOP)
+        self.__password = StringVar()
+        Entry(login_win, textvariable=self.__password).pack(side=TOP)
 
         dismiss_button = Button(
             login_win,
@@ -275,12 +276,58 @@ class Gui(Ui):
         dismiss_button.pack(side=BOTTOM)
 
         newacc_button = Button(
-            login_win, text="Create New Account", command=None, width=20, height=2
+            login_win,
+            text="Create New Account",
+            command=self.__register,
+            width=20,
+            height=2,
         )
         newacc_button.pack(side=BOTTOM)
 
-        enter_button = Button(login_win, text="Enter", command=None, width=20, height=2)
+        enter_button = Button(
+            login_win, text="Enter", command=self.__get_logins, width=20, height=2
+        )
         enter_button.pack(side=BOTTOM)
+
+    def __get_logins(self):
+        # get login details from user
+        self.__user = self.__username.get()
+        self.__pswd = self.__password.get()
+
+    def __register(self):
+        # register a new account window
+        if self.__game_win or self.__opt_win:
+            return
+
+        register_win = Tk()
+        register_win.title("Create New Account")
+        register_win.geometry("400x400")
+        self.__register_win = register_win
+        self.__dismiss_login_win()
+
+        Label(register_win, text="Enter a new username and password").pack(
+            side=TOP, pady=(50, 0)
+        )
+        Label(register_win, text="Username:").pack(side=TOP, pady=(50, 0))
+        self.__username = StringVar()
+        Entry(register_win, textvariable=self.__username).pack(side=TOP)
+        Label(register_win, text="Password:").pack(side=TOP)
+        self.__password = StringVar()
+        Entry(register_win, textvariable=self.__password).pack(side=TOP)
+
+        dismiss_button = Button(
+            register_win,
+            text="Dismiss",
+            command=self.__dismiss_register_win,
+            width=20,
+            height=2,
+        )
+        dismiss_button.pack(side=BOTTOM)
+
+        create_button = Button(
+            register_win, text="Create Account", command=None, width=20, height=2,
+        )
+        create_button.pack(side=BOTTOM)
 
     def __help(self):
         # opens help window (unless already opened) and displayed information on game
@@ -368,6 +415,10 @@ class Gui(Ui):
     def __dismiss_opt_win(self):
         self.__opt_win.destroy()
         self.__opt_win = None
+
+    def __dismiss_register_win(self):
+        self.__register_win.destroy()
+        self.__register_win = None
 
     def __complete(self):
         # displays message in console to user if puzzle correct
