@@ -1,6 +1,21 @@
 from abc import ABC, abstractmethod
 from Game import Game
 from tkinter import *
+import sqlite3
+
+conn = sqlite3.connect(":memory:")
+cursor = conn.cursor()
+
+cursor.execute(
+    """CREATE TABLE users (
+                username text,
+                password text,
+                games integer
+                )"""
+)
+
+cursor.execute("INSERT INTO users VALUES ('user1', 'apss1', 0)")
+conn.commit()
 
 
 class Ui(ABC):
@@ -258,6 +273,12 @@ class Gui(Ui):
         login_win.geometry("400x400")
         self.__login_win = login_win
 
+        console = Text(login_win, height=1, width=50)
+        console.tag_configure("center", justify="center")
+        console.pack(side=TOP)
+        console.configure(state="disabled")
+        self.__login_console = console
+
         # allows user to enter uername and password text boxes
         Label(login_win, text="Username:").pack(side=TOP, pady=(50, 0))
         self.__username = StringVar()
@@ -293,6 +314,7 @@ class Gui(Ui):
         # get login details from user
         self.__user = self.__username.get()
         self.__pswd = self.__password.get()
+        print(cursor.fetchall())
 
     def __register(self):
         # register a new account window
@@ -309,11 +331,11 @@ class Gui(Ui):
             side=TOP, pady=(50, 0)
         )
         Label(register_win, text="Username:").pack(side=TOP, pady=(50, 0))
-        self.__username = StringVar()
-        Entry(register_win, textvariable=self.__username).pack(side=TOP)
+        self.__newusername = StringVar()
+        Entry(register_win, textvariable=self.__newusername).pack(side=TOP)
         Label(register_win, text="Password:").pack(side=TOP)
-        self.__password = StringVar()
-        Entry(register_win, textvariable=self.__password).pack(side=TOP)
+        self.__newpassword = StringVar()
+        Entry(register_win, textvariable=self.__newpassword).pack(side=TOP)
 
         dismiss_button = Button(
             register_win,
@@ -325,9 +347,22 @@ class Gui(Ui):
         dismiss_button.pack(side=BOTTOM)
 
         create_button = Button(
-            register_win, text="Create Account", command=None, width=20, height=2,
+            register_win,
+            text="Create Account",
+            command=self.__register_login,
+            width=20,
+            height=2,
         )
         create_button.pack(side=BOTTOM)
+
+    def __register_login(self):
+        self.__new_user = self.__newusername.get()
+        self.__new_pswd = self.__newpassword.get()
+        cursor.execute(
+            "INSERT INTO users VALUES (?,?,?)", (self.__new_user, self.__new_pswd, 0)
+        )
+        conn.commit()
+        print("committed")
 
     def __help(self):
         # opens help window (unless already opened) and displayed information on game
