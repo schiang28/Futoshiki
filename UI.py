@@ -36,6 +36,8 @@ class Gui(Ui):
         self.__login_win = None
         self.__opt_win = None
         self.__register_win = None
+        self.__logged_in = False
+        self.__stats_win = None
 
         # main menu screen gui
         root = Tk()
@@ -50,6 +52,13 @@ class Gui(Ui):
         Button(frame, text="Login", command=self.__login, height=2).pack(fill=X)
         Button(frame, text="Help", command=self.__help, height=2).pack(fill=X)
         Button(frame, text="Quit", command=self.__quit, height=2).pack(fill=X)
+        Button(frame, text="Stats", command=self.__stats, height=2).pack(fill=X)
+
+        console = Text(frame, height=1, width=25)
+        console.tag_configure("center", justify="center")
+        console.pack(side=TOP)
+        console.configure(state="disabled")
+        self.__menu_console = console
 
         self.__root = root
 
@@ -313,11 +322,20 @@ class Gui(Ui):
         # get login details from user
         self.__user = self.__username.get()
         self.__pswd = self.__password.get()
-        print(self.__user, self.__pswd)
-        stmt = """SELECT username, password, games FROM users"""
-        results = cursor.execute(stmt)
-        for user in results:
-            print(user)
+
+        stmt = cursor.execute(
+            """SELECT * FROM users WHERE username=? AND password=?""",
+            (self.__user, self.__pswd,),
+        )
+        if len(stmt.fetchall()) == 0:
+            self.__login_console.configure(state="normal")
+            self.__login_console.delete("1.0", END)
+            self.__login_console.insert(END, "incorrect username of password")
+            self.__login_console.tag_add("center", "1.0", "end")
+            self.__login_console.configure(state="disabled")
+        else:
+            self.__logged_in = True
+            self.__dismiss_login_win()
 
     def __register(self):
         # register a new account window
@@ -365,6 +383,7 @@ class Gui(Ui):
         create_button.pack(side=BOTTOM)
 
     def __register_login(self):
+        # adds login details to database if username doesn't already exist
         self.__new_user = self.__newusername.get()
         self.__new_pswd = self.__newpassword.get()
 
@@ -455,8 +474,25 @@ class Gui(Ui):
         self.__opt_win = None
         self.__play_game()
 
+    def __stats(self):
+        if self.__stats_win:
+            return
+
+        if self.__logged_in:
+            pass
+        else:
+            self.__menu_console.configure(state="normal")
+            self.__menu_console.delete("1.0", END)
+            self.__menu_console.insert(END, "need to login first")
+            self.__menu_console.tag_add("center", "1.0", "end")
+            self.__menu_console.configure(state="disabled")
+
     def __quit(self):
         self.__root.quit()
+
+    def __dismiss_stats_win(self):
+        self.__stats_win.destroy()
+        self.__stats_win = None
 
     def __dismiss_game_win(self):
         self.__game_win.destroy()
