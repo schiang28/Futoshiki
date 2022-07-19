@@ -51,6 +51,7 @@ class Gui(Ui):
         ).pack()
         Button(frame, text="Login", command=self.__login, height=2).pack(fill=X)
         Button(frame, text="Help", command=self.__help, height=2).pack(fill=X)
+        Button(frame, text="Logout", command=self.__logout, height=2).pack(fill=X)
         Button(frame, text="Quit", command=self.__quit, height=2).pack(fill=X)
         Button(frame, text="Stats", command=self.__stats, height=2).pack(fill=X)
 
@@ -275,6 +276,13 @@ class Gui(Ui):
         # don't open if game, option of login window already open
         if self.__login_win or self.__game_win or self.__opt_win:
             return
+        if self.__logged_in:
+            self.__menu_console.configure(state="normal")
+            self.__menu_console.delete("1.0", END)
+            self.__menu_console.insert(END, "already logged in")
+            self.__menu_console.tag_add("center", "1.0", "end")
+            self.__menu_console.configure(state="disabled")
+            return
 
         login_win = Toplevel(self.__root)
         login_win.title("Login")
@@ -335,6 +343,11 @@ class Gui(Ui):
             self.__login_console.configure(state="disabled")
         else:
             self.__logged_in = True
+            self.__menu_console.configure(state="normal")
+            self.__menu_console.delete("1.0", END)
+            self.__menu_console.insert(END, "successfully logged in")
+            self.__menu_console.tag_add("center", "1.0", "end")
+            self.__menu_console.configure(state="disabled")
             self.__dismiss_login_win()
 
     def __register(self):
@@ -405,6 +418,17 @@ class Gui(Ui):
             self.__register_console.insert(END, "please enter a unique username.")
         self.__register_console.tag_add("center", "1.0", "end")
         self.__register_console.configure(state="disabled")
+
+    def __logout(self):
+        self.__menu_console.configure(state="normal")
+        self.__menu_console.delete("1.0", END)
+        if self.__logged_in:
+            self.__logged_in = False
+            self.__menu_console.insert(END, "successfully logged out")
+        else:
+            self.__menu_console.insert(END, "you are not logged in")
+        self.__menu_console.tag_add("center", "1.0", "end")
+        self.__menu_console.configure(state="disabled")
 
     def __help(self):
         # opens help window (unless already opened) and displayed information on game
@@ -479,7 +503,20 @@ class Gui(Ui):
             return
 
         if self.__logged_in:
-            pass
+            stats_win = Toplevel(self.__root)
+            stats_win.title("Statistics")
+            stats_win.geometry("400x400")
+            self.__stats_win = stats_win
+
+            dismiss_button = Button(
+                stats_win,
+                text="Dismiss",
+                command=self.__dismiss_stats_win,
+                width=10,
+                height=2,
+            )
+            dismiss_button.pack(side=BOTTOM)
+
         else:
             self.__menu_console.configure(state="normal")
             self.__menu_console.delete("1.0", END)
