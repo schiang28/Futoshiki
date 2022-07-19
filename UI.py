@@ -516,7 +516,7 @@ class Gui(Ui):
             self.__stats_win = stats_win
 
             Label(stats_win, text="number of completed games: ").pack(
-                side=TOP, pady=(50, 0)
+                side=TOP, pady=(30, 0)
             )
             result = conn.execute(
                 """SELECT completed FROM users WHERE username=?""", (self.__user,)
@@ -524,12 +524,22 @@ class Gui(Ui):
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
 
             Label(stats_win, text="nuumber of total games: ").pack(
-                side=TOP, pady=(50, 0)
+                side=TOP, pady=(20, 0)
             )
             result = conn.execute(
                 """SELECT games FROM users WHERE username=?""", (self.__user,)
             )
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
+
+            Label(stats_win, text="Leaderboard (sorted by completed)").pack(
+                side=TOP, pady=(20, 0)
+            )
+            result = conn.execute(
+                """SELECT username, completed FROM users ORDER BY completed DESC"""
+            ).fetchall()
+
+            for row in result:
+                Label(stats_win, text=row).pack(side=TOP, pady=0)
 
             dismiss_button = Button(
                 stats_win,
