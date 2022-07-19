@@ -1,4 +1,18 @@
-import numpy as np
+import sqlite3
 
-for i in range(5):
-    print(i)
+conn = sqlite3.connect(":memory:")
+cursor = conn.cursor()
+
+cursor.execute(
+    """CREATE TABLE users (
+                username text,
+                password text,
+                games integer
+                )"""
+)
+
+conn.commit()
+test = "hi"
+currentuser = cursor.execute("""SELECT * FROM users WHERE username=?""", (test,),)
+
+print(currentuser.fetchall())

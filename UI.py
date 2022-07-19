@@ -14,7 +14,6 @@ cursor.execute(
                 )"""
 )
 
-cursor.execute("INSERT INTO users VALUES ('user1', 'apss1', 0)")
 conn.commit()
 
 
@@ -314,18 +313,28 @@ class Gui(Ui):
         # get login details from user
         self.__user = self.__username.get()
         self.__pswd = self.__password.get()
-        print(cursor.fetchall())
+        print(self.__user, self.__pswd)
+        stmt = """SELECT username, password, games FROM users"""
+        results = cursor.execute(stmt)
+        for user in results:
+            print(user)
 
     def __register(self):
         # register a new account window
         if self.__game_win or self.__opt_win:
             return
 
-        register_win = Tk()
+        register_win = Toplevel(self.__root)
         register_win.title("Create New Account")
         register_win.geometry("400x400")
         self.__register_win = register_win
         self.__dismiss_login_win()
+
+        console = Text(register_win, height=1, width=50)
+        console.tag_configure("center", justify="center")
+        console.pack(side=TOP)
+        console.configure(state="disabled")
+        self.__register_console = console
 
         Label(register_win, text="Enter a new username and password").pack(
             side=TOP, pady=(50, 0)
@@ -358,11 +367,25 @@ class Gui(Ui):
     def __register_login(self):
         self.__new_user = self.__newusername.get()
         self.__new_pswd = self.__newpassword.get()
-        cursor.execute(
-            "INSERT INTO users VALUES (?,?,?)", (self.__new_user, self.__new_pswd, 0)
+
+        self.__register_console.configure(state="normal")
+        self.__register_console.delete("1.0", END)
+
+        currentuser = cursor.execute(
+            """SELECT * FROM users WHERE username=?""", (self.__new_user,),
         )
-        conn.commit()
-        print("committed")
+        if len(currentuser.fetchall()) == 0:
+            cursor.execute(
+                """INSERT INTO users (username,password,games)
+        VALUES (?, ?, ?)""",
+                (self.__new_user, self.__new_pswd, 0),
+            )
+            conn.commit()
+            self.__register_console.insert(END, "created new account")
+        else:
+            self.__register_console.insert(END, "please enter a unique username.")
+        self.__register_console.tag_add("center", "1.0", "end")
+        self.__register_console.configure(state="disabled")
 
     def __help(self):
         # opens help window (unless already opened) and displayed information on game
