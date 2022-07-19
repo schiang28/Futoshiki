@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from os import stat
 from Game import Game
 from tkinter import *
 import sqlite3
@@ -10,7 +11,8 @@ cursor.execute(
     """CREATE TABLE users (
                 username text,
                 password text,
-                games integer
+                games integer,
+                completed integer
                 )"""
 )
 
@@ -116,6 +118,11 @@ class Gui(Ui):
         hint_button.pack(ipadx=10, ipady=10, expand=True)
         save_button = Button(game_win, text="Save", command=self.__save, width=10)
         save_button.pack(ipadx=10, ipady=10, expand=True)
+
+        if self.__logged_in:
+            conn.execute(
+                """UPDATE users SET games = games+1 WHERE username=?""", (self.__user,),
+            )
 
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
@@ -408,9 +415,9 @@ class Gui(Ui):
         )
         if len(currentuser.fetchall()) == 0:
             cursor.execute(
-                """INSERT INTO users (username,password,games)
-        VALUES (?, ?, ?)""",
-                (self.__new_user, self.__new_pswd, 0),
+                """INSERT INTO users (username,password,games,completed)
+        VALUES (?, ?, ?, ?)""",
+                (self.__new_user, self.__new_pswd, 0, 0),
             )
             conn.commit()
             self.__register_console.insert(END, "created new account")
@@ -508,6 +515,22 @@ class Gui(Ui):
             stats_win.geometry("400x400")
             self.__stats_win = stats_win
 
+            Label(stats_win, text="number of completed games: ").pack(
+                side=TOP, pady=(50, 0)
+            )
+            result = conn.execute(
+                """SELECT completed FROM users WHERE username=?""", (self.__user,)
+            )
+            Label(stats_win, text=result.fetchone()).pack(side=TOP)
+
+            Label(stats_win, text="nuumber of total games: ").pack(
+                side=TOP, pady=(50, 0)
+            )
+            result = conn.execute(
+                """SELECT games FROM users WHERE username=?""", (self.__user,)
+            )
+            Label(stats_win, text=result.fetchone()).pack(side=TOP)
+
             dismiss_button = Button(
                 stats_win,
                 text="Dismiss",
@@ -558,6 +581,12 @@ class Gui(Ui):
         self.__console.insert(END, "puzzle correct!")
         self.__console.tag_add("center", "1.0", "end")
         self.__console.configure(state="disabled")
+
+        if self.__logged_in:
+            conn.execute(
+                """UPDATE users SET completed = completed+1 WHERE username=?""",
+                (self.__user,),
+            )
 
     def __check(self):
         # checks for mistakes in user's answer and displays message in gui
