@@ -4,19 +4,19 @@ from Game import Game
 from tkinter import *
 import sqlite3
 
-conn = sqlite3.connect(":memory:")
+conn = sqlite3.connect("userdatabase.db")
 cursor = conn.cursor()
 
-cursor.execute(
-    """CREATE TABLE users (
-                username text,
-                password text,
-                games integer,
-                completed integer
-                )"""
-)
+# cursor.execute(
+#     """CREATE TABLE users (
+#                 username text,
+#                 password text,
+#                 games integer,
+#                 completed integer
+#                 )"""
+# )
 
-conn.commit()
+# conn.commit()
 
 
 class Ui(ABC):
@@ -123,6 +123,7 @@ class Gui(Ui):
             conn.execute(
                 """UPDATE users SET games = games+1 WHERE username=?""", (self.__user,),
             )
+            conn.commit()
 
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
@@ -597,6 +598,7 @@ class Gui(Ui):
                 """UPDATE users SET completed = completed+1 WHERE username=?""",
                 (self.__user,),
             )
+            conn.commit()
 
     def __check(self):
         # checks for mistakes in user's answer and displays message in gui
