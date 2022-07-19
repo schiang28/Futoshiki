@@ -119,6 +119,7 @@ class Gui(Ui):
         save_button = Button(game_win, text="Save", command=self.__save, width=10)
         save_button.pack(ipadx=10, ipady=10, expand=True)
 
+        # if user is logged in, stats are updates when a game is played
         if self.__logged_in:
             conn.execute(
                 """UPDATE users SET games = games+1 WHERE username=?""", (self.__user,),
@@ -219,6 +220,7 @@ class Gui(Ui):
                             )
 
     def __cell_clicked(self, event):
+        # calculated where cell is clicked on canvas
         if self.__game.check():
             return
 
@@ -359,7 +361,7 @@ class Gui(Ui):
             self.__dismiss_login_win()
 
     def __register(self):
-        # register a new account window
+        # register a new account window, user enters new useranme and password
         if self.__game_win or self.__opt_win:
             return
 
@@ -428,6 +430,7 @@ class Gui(Ui):
         self.__register_console.configure(state="disabled")
 
     def __logout(self):
+        # user can logout of they are logged in
         self.__menu_console.configure(state="normal")
         self.__menu_console.delete("1.0", END)
         if self.__logged_in:
@@ -510,6 +513,7 @@ class Gui(Ui):
         if self.__stats_win:
             return
 
+        # user can view their stats if they are logged, as well as a leaderboard of all users sorted by completed games
         if self.__logged_in:
             stats_win = Toplevel(self.__root)
             stats_win.title("Statistics")
