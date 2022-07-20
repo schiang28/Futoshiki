@@ -7,17 +7,17 @@ import time as time
 conn = sqlite3.connect("userdatabase.db")
 cursor = conn.cursor()
 
-cursor.execute(
-    """CREATE TABLE users (
-                username text,
-                password text,
-                games integer,
-                completed integer,
-                timer real
-                )"""
-)
+# cursor.execute(
+#     """CREATE TABLE users (
+#                 username text,
+#                 password text,
+#                 games integer,
+#                 completed integer,
+#                 timer real
+#                 )"""
+# )
 
-conn.commit()
+# conn.commit()
 
 
 class Ui(ABC):
@@ -42,7 +42,7 @@ class Gui(Ui):
         self.__logged_in = False
         self.__stats_win = None
         self.__set_win = None
-        self.__timer = True
+        self.__timer = False
 
         # main menu screen gui
         root = Tk()
@@ -130,7 +130,8 @@ class Gui(Ui):
             )
             conn.commit()
 
-        if self.__timer:
+        # starts timer
+        if self.__timer and self.__logged_in:
             self.__start = time.time()
 
     def __draw_grid(self):
@@ -584,10 +585,26 @@ class Gui(Ui):
         set_win.geometry("400x400")
         self.__set_win = set_win
 
+        self.__toggle = IntVar()
+        Checkbutton(
+            set_win,
+            text="timings for games",
+            var=self.__toggle,
+            onvalue=1,
+            offvalue=0,
+            command=self.__toggle_timer,
+        ).pack(side=TOP, pady=(20, 0))
+
         dismiss_button = Button(
             set_win, text="Dismiss", command=self.__dismiss_set_win, width=10, height=2,
         )
         dismiss_button.pack(side=BOTTOM)
+
+    def __toggle_timer(self):
+        if self.__toggle.get() == 1:
+            self.__timer = True
+        else:
+            self.__timer = False
 
     def __quit(self):
         self.__root.quit()
