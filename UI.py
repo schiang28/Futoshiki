@@ -579,7 +579,7 @@ class Gui(Ui):
             self.__menu_console.configure(state="disabled")
 
     def __settings(self):
-        # separte window allows user to toggle timings
+        # separte window allows user to toggle timings and choose background colour
         if self.__game_win or self.__opt_win or self.__login_win or self.__stats_win:
             return
 
@@ -628,6 +628,7 @@ class Gui(Ui):
         self.__root.quit()
 
     def __dismiss_set_win(self):
+        # gets color option from drop down menu and dismisses
         self.__backgroundcol = self.__backgroundcol.get()
         self.__set_win.destroy()
         self.__set_win = None
@@ -770,6 +771,7 @@ class Terminal(Ui):
         self.__game = Game()
 
     def __get_grid_settings(self):
+        # askes user to enter grid size, and difficulty level
         while True:
             try:
                 size = int(input("Enter prefered grid size: "))
@@ -793,6 +795,7 @@ class Terminal(Ui):
         return size, difficulty
 
     def __get_input(self):
+        # gets row and column and number from user
         while True:
             try:
                 row = int(input("Enter row: "))
@@ -822,6 +825,7 @@ class Terminal(Ui):
         return row, column, choice
 
     def __get_option(self):
+        # extra functionality options e.g. restarting game
         while True:
             choice = input(
                 "enter to continue, or r:restart, u:undo, c:check for mistakes, a:see answer and quit"
@@ -857,6 +861,7 @@ class Terminal(Ui):
                     print("no mistakes found")
                 continue
             elif choice == "a":
+                # quits if user want to view answer
                 print("solution to puzzle: ")
                 self.__game.show_answer()
                 print(self.__game)
