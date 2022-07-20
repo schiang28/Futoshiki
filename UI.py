@@ -40,6 +40,7 @@ class Gui(Ui):
         self.__register_win = None
         self.__logged_in = False
         self.__stats_win = None
+        self.__set_win = None
 
         # main menu screen gui
         root = Tk()
@@ -52,10 +53,11 @@ class Gui(Ui):
             frame, text="Play", command=self.__select_options, height=2, width=25
         ).pack()
         Button(frame, text="Login", command=self.__login, height=2).pack(fill=X)
-        Button(frame, text="Help", command=self.__help, height=2).pack(fill=X)
         Button(frame, text="Logout", command=self.__logout, height=2).pack(fill=X)
-        Button(frame, text="Quit", command=self.__quit, height=2).pack(fill=X)
+        Button(frame, text="Help", command=self.__help, height=2).pack(fill=X)
         Button(frame, text="Stats", command=self.__stats, height=2).pack(fill=X)
+        Button(frame, text="Settings", command=self.__settings, height=2).pack(fill=X)
+        Button(frame, text="Quit", command=self.__quit, height=2).pack(fill=X)
 
         console = Text(frame, height=1, width=25)
         console.tag_configure("center", justify="center")
@@ -562,8 +564,26 @@ class Gui(Ui):
             self.__menu_console.tag_add("center", "1.0", "end")
             self.__menu_console.configure(state="disabled")
 
+    def __settings(self):
+        if self.__game_win or self.__opt_win or self.__login_win or self.__stats_win:
+            return
+
+        set_win = Toplevel(self.__root)
+        set_win.title("Settings")
+        set_win.geometry("400x400")
+        self.__set_win = set_win
+
+        dismiss_button = Button(
+            set_win, text="Dismiss", command=self.__dismiss_set_win, width=10, height=2,
+        )
+        dismiss_button.pack(side=BOTTOM)
+
     def __quit(self):
         self.__root.quit()
+
+    def __dismiss_set_win(self):
+        self.__set_win.destroy()
+        self.__set_win = None
 
     def __dismiss_stats_win(self):
         self.__stats_win.destroy()
