@@ -42,7 +42,6 @@ class Gui(Ui):
         self.__logged_in = False
         self.__stats_win = None
         self.__set_win = None
-        self.__timer = False
 
         # main menu screen gui
         root = Tk()
@@ -131,6 +130,7 @@ class Gui(Ui):
             conn.commit()
 
         # starts timer
+        self.__toggle_timer()
         if self.__timer and self.__logged_in:
             self.__start = time.time()
 
