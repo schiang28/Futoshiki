@@ -42,6 +42,8 @@ class Gui(Ui):
         self.__logged_in = False
         self.__stats_win = None
         self.__set_win = None
+        self.__timer = False
+        self.__backgroundcol = "white"
 
         # main menu screen gui
         root = Tk()
@@ -78,6 +80,7 @@ class Gui(Ui):
 
         game_win = Toplevel(self.__root)
         game_win.title("Puzzle")
+        game_win.configure(background=self.__backgroundcol)
 
         # calculates appropriate sized window
         x, y = str(200 * self.__size), str(self.__size * 100 + 100)
@@ -130,7 +133,6 @@ class Gui(Ui):
             conn.commit()
 
         # starts timer
-        self.__toggle_timer()
         if self.__timer and self.__logged_in:
             self.__start = time.time()
 
@@ -577,6 +579,7 @@ class Gui(Ui):
             self.__menu_console.configure(state="disabled")
 
     def __settings(self):
+        # separte window allows user to toggle timings
         if self.__game_win or self.__opt_win or self.__login_win or self.__stats_win:
             return
 
@@ -593,7 +596,21 @@ class Gui(Ui):
             onvalue=1,
             offvalue=0,
             command=self.__toggle_timer,
-        ).pack(side=TOP, pady=(20, 0))
+        ).pack(side=TOP, pady=(50, 0))
+
+        Label(set_win, text="colour background: ").pack(side=TOP, pady=(50, 0))
+        self.__backgroundcol = StringVar(set_win)
+        self.__backgroundcol.set("white")
+        OptionMenu(
+            set_win,
+            self.__backgroundcol,
+            "white",
+            "black",
+            "red",
+            "blue",
+            "green",
+            "yellow",
+        ).pack(side=TOP)
 
         dismiss_button = Button(
             set_win, text="Dismiss", command=self.__dismiss_set_win, width=10, height=2,
@@ -601,6 +618,7 @@ class Gui(Ui):
         dismiss_button.pack(side=BOTTOM)
 
     def __toggle_timer(self):
+        # checks whether the timing checkbox is ticked or not
         if self.__toggle.get() == 1:
             self.__timer = True
         else:
@@ -610,6 +628,7 @@ class Gui(Ui):
         self.__root.quit()
 
     def __dismiss_set_win(self):
+        self.__backgroundcol = self.__backgroundcol.get()
         self.__set_win.destroy()
         self.__set_win = None
 
