@@ -68,7 +68,7 @@ class Game:
         fixed = []
         for row in range(0, len(self.file), 2):
             for col in range(0, len(self.file[row]), 2):
-                if self.file[row][col] != " ":
+                if self.file[row][col] != Game.EMPTY:
                     fixed.append((row // 2 + 1, col // 2 + 1))
 
         # board has to deepcopy as lists are mutable and board is 2d, have to convert from numpy to list
@@ -138,10 +138,7 @@ class Game:
         empty_cells = []
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
-                if (
-                    self._board[row][col] == Game.EMPTY
-                    and (row, col) not in self.__fixed
-                ):
+                if self._board[row][col] == Game.EMPTY:
                     empty_cells.append((row, col))
 
         try:

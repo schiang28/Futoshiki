@@ -1,22 +1,23 @@
 from abc import ABC, abstractmethod
-from os import stat
 from Game import Game
 from tkinter import *
 import sqlite3
+import time as time
 
 conn = sqlite3.connect("userdatabase.db")
 cursor = conn.cursor()
 
-# cursor.execute(
-#     """CREATE TABLE users (
-#                 username text,
-#                 password text,
-#                 games integer,
-#                 completed integer
-#                 )"""
-# )
+cursor.execute(
+    """CREATE TABLE users (
+                username text,
+                password text,
+                games integer,
+                completed integer,
+                timer real
+                )"""
+)
 
-# conn.commit()
+conn.commit()
 
 
 class Ui(ABC):
@@ -41,6 +42,7 @@ class Gui(Ui):
         self.__logged_in = False
         self.__stats_win = None
         self.__set_win = None
+        self.__timer = True
 
         # main menu screen gui
         root = Tk()
@@ -127,6 +129,9 @@ class Gui(Ui):
                 """UPDATE users SET games = games+1 WHERE username=?""", (self.__user,),
             )
             conn.commit()
+
+        if self.__timer:
+            self.__start = time.time()
 
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
@@ -420,9 +425,9 @@ class Gui(Ui):
         )
         if len(currentuser.fetchall()) == 0:
             cursor.execute(
-                """INSERT INTO users (username,password,games,completed)
-        VALUES (?, ?, ?, ?)""",
-                (self.__new_user, self.__new_pswd, 0, 0),
+                """INSERT INTO users (username,password,games,completed,timer)
+        VALUES (?, ?, ?, ?, ?)""",
+                (self.__new_user, self.__new_pswd, 0, 0, 0),
             )
             conn.commit()
             self.__register_console.insert(END, "created new account")
@@ -530,11 +535,17 @@ class Gui(Ui):
             )
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
 
-            Label(stats_win, text="nuumber of total games: ").pack(
+            Label(stats_win, text="number of total games:").pack(side=TOP, pady=(20, 0))
+            result = conn.execute(
+                """SELECT games FROM users WHERE username=?""", (self.__user,)
+            )
+            Label(stats_win, text=result.fetchone()).pack(side=TOP)
+
+            Label(stats_win, text="average time taken to complete puzzle:").pack(
                 side=TOP, pady=(20, 0)
             )
             result = conn.execute(
-                """SELECT games FROM users WHERE username=?""", (self.__user,)
+                """SELECT timer FROM users WHERE username=?""", (self.__user,)
             )
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
 
@@ -623,6 +634,14 @@ class Gui(Ui):
                 (self.__user,),
             )
             conn.commit()
+        if self.__timer:
+            self.__time = time.time() - self.__start
+            if self.__logged_in:
+                conn.execute(
+                    """UPDATE users SET timer = (timer+?)/completed WHERE username=?""",
+                    (self.__time, self.__user,),
+                )
+                conn.commit()
 
     def __check(self):
         # checks for mistakes in user's answer and displays message in gui
