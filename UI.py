@@ -675,7 +675,7 @@ class Gui(Ui):
             self.__time = time.time() - self.__start
             if self.__logged_in:
                 conn.execute(
-                    """UPDATE users SET timer = (timer+?)/completed WHERE username=?""",
+                    """UPDATE users SET timer = (timer*(completed-1)+?)/completed WHERE username=?""",
                     (self.__time, self.__user,),
                 )
                 conn.commit()
