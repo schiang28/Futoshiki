@@ -1,0 +1,22 @@
+SUBROUTINE generate()
+    shuffle(CELLS)
+    FOR _ <- 1< TO DIFFICULTY_LEVEL
+        FOR i <- 1 TO GRID_LENGTH
+            row, col <- CELLS[0], CELLS[1]
+            IF GAME_GRID[row][col] ≠ Game.EMPTY THEN
+                temp <- GAME_GRID[row][col]
+                GAME_GRID[row][col]= Game.EMPTY
+
+                GRID_COPY <- GAME_GRID
+                solutions <- 0
+                solve(GRID_COPY)
+            
+                IF solutions ≠ 1 THEN
+                    GAME_GRID[row][col] <- temp
+                ENDIF
+            ENDIF
+        ENDFOR
+    ENDFOR
+ENDSUBROUTINE
+
+

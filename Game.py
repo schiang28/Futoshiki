@@ -201,6 +201,7 @@ class Game:
                                 board[row][col] = Game.EMPTY
                             else:
                                 self.__answer = np.copy(board)
+                    # if none of the numbers are possible return nothing
                     return
 
     def __fill_inequalities(self):
@@ -231,6 +232,7 @@ class Game:
                             self.__solve(temp)
                             if not (self.__end_solver):
                                 temp[row][col] = Game.EMPTY
+                    # when no values from 1 to n work for a specific cell
                     return
         self.__n_solutions += 1
         if self.__n_solutions == 2:
