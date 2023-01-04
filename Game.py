@@ -30,6 +30,14 @@ class Game:
     def get_board(self):
         return self._board
 
+
+    ############################
+    # Group B                  #
+    # Multi-dimensional Arrays #
+    ############################
+
+    # the board is represented using a two-dimensional array therefore
+    # a value in a cell is represented by its row and column number
     def get_board_num(self, row, col):
         return self._board[row][col]
 
@@ -283,6 +291,13 @@ class Game:
         self.file = deepcopy(self.__answer)
         shuffle(self.__cells)
         loop = 1
+
+        #######################################################
+        # Group B                                             #
+        # User defined algorithms (mathematical calculations) #
+        #######################################################
+
+        # difficulty is 1 for easy, 2 for medium and 3 for hard
         if self.__difficulty == 1:
             diff = -((self._grid_size * 2 - 1) ** 2 // 2)
         elif self.__difficulty == 2:

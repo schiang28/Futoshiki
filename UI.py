@@ -439,7 +439,15 @@ class Gui(Ui):
         currentuser = cursor.execute(
             """SELECT * FROM users WHERE username=?""", (self.__new_user,),
         )
+
+
+        ###########
+        # Group B #
+        # Records #
+        ###########
+
         if len(currentuser.fetchall()) == 0:
+            # creates a new user record into the database
             cursor.execute(
                 """INSERT INTO users (username,password,games,completed,timer)
         VALUES (?, ?, ?, ?, ?)""",
@@ -473,6 +481,11 @@ class Gui(Ui):
         help_win.title("Help")
         help_win.geometry("400x400")
         self.__help_win = help_win
+
+        ##############
+        # Group B    #
+        # Text Files #
+        ##############
 
         with open("rules.txt") as f:
             rules = f.read()
@@ -687,6 +700,13 @@ class Gui(Ui):
         if self.__timer:
             self.__time = time.time() - self.__start
             if self.__logged_in:
+
+                ####################################
+                # Group C                          #
+                # Simple Mathematical Calculations #
+                ####################################
+
+                # calculates and stores the new timed average for a completed game in the user's record
                 conn.execute(
                     """UPDATE users SET timer = (timer*(completed-1)+?)/completed WHERE username=?""",
                     (self.__time, self.__user,),
@@ -811,6 +831,12 @@ class Terminal(Ui):
         # gets row and column and number from user
         while True:
             try:
+
+                #####################
+                # Group C           #
+                # Simple Data Types #
+                #####################
+
                 row = int(input("Enter row: "))
                 column = int(input("Enter column: "))
                 if (
