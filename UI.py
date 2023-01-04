@@ -125,8 +125,14 @@ class Gui(Ui):
         save_button = Button(game_win, text="Save", command=self.__save, width=10)
         save_button.pack(ipadx=10, ipady=10, expand=True)
 
+        ############################
+        # GROUP A                  #
+        # Aggregate SQL Functions  #
+        ############################
+
         # if user is logged in, stats are updates when a game is played
         if self.__logged_in:
+            # if the user is logged in, an SQL query will be made to increment the number of games played by 1
             conn.execute(
                 """UPDATE users SET games = games+1 WHERE username=?""", (self.__user,),
             )

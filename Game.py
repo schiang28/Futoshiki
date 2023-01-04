@@ -5,6 +5,7 @@ import numpy as np
 
 class Game:
 
+    # EMPTY represent an empty cell
     EMPTY = " "
 
     def __init__(self):
@@ -64,11 +65,21 @@ class Game:
                 if self.file[i][j] == ">":
                     self.file[i][j] = "v"
 
+
+        ###################
+        # GROUP A         #
+        # List Operations #
+        ###################
+
         # list of cells that are fixed and cannot be changed by the user
         fixed = []
         for row in range(0, len(self.file), 2):
             for col in range(0, len(self.file[row]), 2):
+                # loops through each row and column of the original puzzle
                 if self.file[row][col] != Game.EMPTY:
+                    # if the cell already has a number in it, append it's row and column number
+                    # to the list 'fixed'
+                    # as the original self.file stores inequalities, the actual row number is row // 2 + 1
                     fixed.append((row // 2 + 1, col // 2 + 1))
 
         # board has to deepcopy as lists are mutable and board is 2d, have to convert from numpy to list
@@ -111,9 +122,17 @@ class Game:
         self._board = (deepcopy(self.file)).tolist()
         self.__moves = []
 
+
+    ####################
+    # GROUP A          #
+    # Stack Operations #
+    ####################
+
     def undo(self):
         # undo move by popping from moves stack, if stack empty returns -1
         if len(self.__moves) > 0:
+            # if the stack isn't empty, undo the move at the top of the stack, pop the move from the stack, and returns 1
+            # if the stack is empty, return -1
             undomove = self.__moves[-1]
             self._board[undomove[0]][undomove[1]] = undomove[2]
             self.__moves.pop()
