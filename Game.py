@@ -169,6 +169,12 @@ class Game:
         except:
             return -1
 
+    
+    #############################
+    # Group A                   #
+    # Reading and Writing Files #
+    #############################
+
     def save_puzzle(self):
         # saves completed puzzle to file
         file = open("puzzle.txt", "w")
@@ -240,13 +246,22 @@ class Game:
                         else ">"
                     )
 
+
+    ########################
+    # Group A              #
+    # Recursive Algorithms #
+    ########################
+
     def __solve(self, temp):
-        # checks whether temporary grid is solvable, backtracking
+        # checks whether temporary grid is solvable, uses recursive backtracking
         for row in range(0, len(self.__answer), 2):
             for col in range(0, len(self.__answer[row]), 2):
+                # loops through each cell of the puzzle
                 if temp[row][col] == Game.EMPTY:
+                    # if the cell is empty, try possible numbers in that cell
                     for n in range(1, self._grid_size + 1):
                         if self.__possible(temp, row, col, n):
+                            # if a certain number can be played, play it and temporarily store the grid state
                             temp[row][col] = n
                             self.__solve(temp)
                             if not (self.__end_solver):
@@ -256,6 +271,12 @@ class Game:
         self.__n_solutions += 1
         if self.__n_solutions == 2:
             self.__end_solver = True
+
+
+    ###################################
+    # Group A                         #
+    # Complex User-defined Algorithms #
+    ###################################
 
     def __generate(self):
         # generates puzzle by removing random values and inequalities one by one, more values removed the harder the difficulty

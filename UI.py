@@ -74,6 +74,12 @@ class Gui(Ui):
         if self.__game_win:
             return
 
+        
+        ###################################
+        # Group A                         #
+        # Dynamic Generation of an Object #
+        ###################################
+
         self.__game = Game()
         self.__game.set_grid_size(self.__size)
         self.__game.create_grid(self.__size, self.__difficulty)
@@ -124,6 +130,7 @@ class Gui(Ui):
         hint_button.pack(ipadx=10, ipady=10, expand=True)
         save_button = Button(game_win, text="Save", command=self.__save, width=10)
         save_button.pack(ipadx=10, ipady=10, expand=True)
+
 
         ############################
         # GROUP A                  #
