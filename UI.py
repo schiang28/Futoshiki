@@ -4,20 +4,24 @@ from tkinter import *
 import sqlite3
 import time as time
 
-conn = sqlite3.connect("userdatabase.db")
-cursor = conn.cursor()
+try:
+    f = open("userdatabase.db")
+    conn = sqlite3.connect("userdatabase.db")
+    cursor = conn.cursor()
+except IOError:
+    conn = sqlite3.connect("userdatabase.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """CREATE TABLE users (
+                    username text,
+                    password text,
+                    games integer,
+                    completed integer,
+                    timer real
+                    )"""
+    )
 
-# cursor.execute(
-#     """CREATE TABLE users (
-#                 username text,
-#                 password text,
-#                 games integer,
-#                 completed integer,
-#                 timer real
-#                 )"""
-# )
-
-# conn.commit()
+    conn.commit()
 
 
 class Ui(ABC):
