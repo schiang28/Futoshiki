@@ -621,6 +621,26 @@ class Gui(Ui):
             for row in result:
                 Label(stats_win, text=row).pack(side=TOP, pady=0)
 
+
+            Label(stats_win, text="Saved Games (GameID, Time, Grid Size, Difficulty):").pack(
+                side=TOP, pady=(20, 0)
+            )
+
+            ##########################
+            # Group A                #
+            # Complex Database Model #
+            ##########################
+
+            result = conn.execute(
+                """SELECT puzzles.gameid, time, grid_size, difficulty FROM puzzles
+                    INNER JOIN savedgames ON puzzles.gameid = savedgames.gameid
+                    INNER JOIN users ON savedgames.username = users.username
+                    WHERE users.username=?""", (self.__current_username,)
+            ).fetchall()
+
+            for row in result:
+                Label(stats_win, text=row).pack(side=TOP, pady=0)
+
             dismiss_button = Button(
                 stats_win,
                 text="Dismiss",
