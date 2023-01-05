@@ -31,7 +31,8 @@ except IOError:
         """CREATE TABLE puzzles (
                     gameid integer,
                     time real,
-                    grid_size integer
+                    grid_size integer,
+                    difficulty text
                     )"""
     )
 
@@ -41,7 +42,6 @@ except IOError:
                     gameid integer
                     )"""
     )
-    ### create another table of GAMES including gameid, userid, time, difficulty, grid_size
     ### joining table with gameid and userid as primary key / foreign key
     conn.commit()
 
@@ -70,7 +70,6 @@ class Gui(Ui):
         self.__set_win = None
         self.__timer = False
         self.__backgroundcol = "white"
-        self.__gameid = 0
 
         # main menu screen gui
         root = Tk()
@@ -829,24 +828,31 @@ class Gui(Ui):
         self.__console.tag_add("center", "1.0", "end")
         self.__console.configure(state="disabled")
 
-        # TODO add record to puzzles and saved games
-        self.__gameid += 1
-        
-        # if timings are enables, add the timings to the record, else insert n/a
+        # if timings are enabled, add the timings to the record
+        # otherwise insert "n/a" to indicate the user did not have timings enabled for that puzzle
         if self.__timer:
             temptime = self.__time
         else:
             temptime = "n/a"
         
+        ###########################
+        # Group A                 #
+        # Aggregate SQL Functions #
+        ###########################
+
+        # gets number of rows from puzzle table and assinged to variable gamelength
+        gamelength = len(cursor.execute("""SELECT * FROM puzzles""").fetchall()) + 1
+        print(gamelength)
+
         cursor.execute(
-            """INSERT INTO puzzles (gameid, time, grid_size)
-                    VALUES (?, ?, ?)""",
-                            (self.__gameid, temptime, self.__game.get_grid_size),
+            """INSERT INTO puzzles (gameid, time, grid_size, difficulty)
+                    VALUES (?, ?, ?, ?)""",
+                            (gamelength, temptime, self.__game.get_grid_size, self.__difficulty),
                         )
         cursor.execute(
             """INSERT INTO savedgames (username, gameid)
                     VALUES (?, ?)""",
-                            (self.__current_username, self.__gameid),
+                            (self.__current_username, gamelength),
                         )
         conn.commit()
 
