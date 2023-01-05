@@ -589,7 +589,8 @@ class Gui(Ui):
             stats_win.geometry("400x400")
             self.__stats_win = stats_win
 
-            Label(stats_win, text="number of completed games: ").pack(
+            # TODO make formatting nice; change font and positioning
+            Label(stats_win, text="number of completed games: ", font=('Courier', 12, 'bold')).pack(
                 side=TOP, pady=(30, 0)
             )
             result = conn.execute(
@@ -597,13 +598,13 @@ class Gui(Ui):
             )
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
 
-            Label(stats_win, text="number of total games:").pack(side=TOP, pady=(20, 0))
+            Label(stats_win, text="number of total games:", font=('Courier', 12, 'bold')).pack(side=TOP, pady=(20, 0))
             result = conn.execute(
                 """SELECT games FROM users WHERE username=?""", (self.__user,)
             )
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
 
-            Label(stats_win, text="average time taken to complete puzzle:").pack(
+            Label(stats_win, text="average time taken to complete puzzle:", font=('Courier', 12, 'bold')).pack(
                 side=TOP, pady=(20, 0)
             )
             result = conn.execute(
@@ -611,7 +612,7 @@ class Gui(Ui):
             )
             Label(stats_win, text=result.fetchone()).pack(side=TOP)
 
-            Label(stats_win, text="Leaderboard (sorted by completed)").pack(
+            Label(stats_win, text="Leaderboard (sorted by completed)", font=('Courier', 12, 'bold')).pack(
                 side=TOP, pady=(20, 0)
             )
             result = conn.execute(
@@ -622,7 +623,7 @@ class Gui(Ui):
                 Label(stats_win, text=row).pack(side=TOP, pady=0)
 
 
-            Label(stats_win, text="Saved Games (GameID, Time, Grid Size, Difficulty):").pack(
+            Label(stats_win, text="Saved Games (GameID, Time, Grid Size, Difficulty):", font=('Courier', 12, 'bold')).pack(
                 side=TOP, pady=(20, 0)
             )
 
