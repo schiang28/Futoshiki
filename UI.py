@@ -3,6 +3,7 @@ from Game import Game
 from tkinter import *
 import sqlite3
 import time as time
+import hashlib
 
 try:
     f = open("userdatabase.db")
@@ -368,6 +369,9 @@ class Gui(Ui):
         self.__user = self.__username.get()
         self.__pswd = self.__password.get()
 
+        # hashes password for searching in database
+        self.__pswd = hash_password(self.__pswd)
+
         stmt = cursor.execute(
             """SELECT * FROM users WHERE username=? AND password=?""",
             (self.__user, self.__pswd,),
@@ -436,6 +440,9 @@ class Gui(Ui):
         # adds login details to database if username doesn't already exist
         self.__new_user = self.__newusername.get()
         self.__new_pswd = self.__newpassword.get()
+
+        # hashes password to store in database
+        self.__new_pswd = hash_password(self.__new_pswd)
 
         self.__register_console.configure(state="normal")
         self.__register_console.delete("1.0", END)
@@ -802,6 +809,11 @@ class Gui(Ui):
     def run(self):
         self.__root.mainloop()
 
+def hash_password(pswd):
+    # TODO insert hashing algorithm here
+    pswd = hashlib.sha256(pswd.encode('utf-8')).hexdigest()
+    return pswd
+
 
 class Terminal(Ui):
     def __init__(self):
@@ -878,7 +890,7 @@ class Terminal(Ui):
             else:
                 print("invalid input")
         return choice
-
+    
     def run(self):
         # creates a puzzle based on user selecting size and difficulty
         size, difficulty = self.__get_grid_settings()
