@@ -10,6 +10,12 @@ try:
     conn = sqlite3.connect("userdatabase.db")
     cursor = conn.cursor()
 except IOError:
+
+    ##########################
+    # Group A                #
+    # Complex Database Model #
+    ##########################
+    
     conn = sqlite3.connect("userdatabase.db")
     cursor = conn.cursor()
     cursor.execute(
@@ -21,7 +27,22 @@ except IOError:
                     timer real
                     )"""
     )
+    cursor.execute(
+        """CREATE TABLE puzzles (
+                    gameid integer,
+                    time real,
+                    grid_size integer
+                    )"""
+    )
 
+    cursor.execute(
+        """CREATE TABLE savedgames (
+                    username text,
+                    gameid integer
+                    )"""
+    )
+    ### create another table of GAMES including gameid, userid, time, difficulty, grid_size
+    ### joining table with gameid and userid as primary key / foreign key
     conn.commit()
 
 
@@ -49,6 +70,7 @@ class Gui(Ui):
         self.__set_win = None
         self.__timer = False
         self.__backgroundcol = "white"
+        self.__gameid = 0
 
         # main menu screen gui
         root = Tk()
@@ -379,11 +401,12 @@ class Gui(Ui):
         if len(stmt.fetchall()) == 0:
             self.__login_console.configure(state="normal")
             self.__login_console.delete("1.0", END)
-            self.__login_console.insert(END, "incorrect username of password")
+            self.__login_console.insert(END, "incorrect username or password")
             self.__login_console.tag_add("center", "1.0", "end")
             self.__login_console.configure(state="disabled")
         else:
             self.__logged_in = True
+            self.__current_username = self.__user
             self.__menu_console.configure(state="normal")
             self.__menu_console.delete("1.0", END)
             self.__menu_console.insert(END, "successfully logged in")
@@ -708,9 +731,9 @@ class Gui(Ui):
                 (self.__user,),
             )
             conn.commit()
-        if self.__timer:
-            self.__time = time.time() - self.__start
-            if self.__logged_in:
+
+            if self.__timer:
+                self.__time = time.time() - self.__start
 
                 ####################################
                 # Group C                          #
@@ -806,11 +829,38 @@ class Gui(Ui):
         self.__console.tag_add("center", "1.0", "end")
         self.__console.configure(state="disabled")
 
+        # TODO add record to puzzles and saved games
+        self.__gameid += 1
+        
+        # if timings are enables, add the timings to the record, else insert n/a
+        if self.__timer:
+            temptime = self.__time
+        else:
+            temptime = "n/a"
+        
+        cursor.execute(
+            """INSERT INTO puzzles (gameid, time, grid_size)
+                    VALUES (?, ?, ?)""",
+                            (self.__gameid, temptime, self.__game.get_grid_size),
+                        )
+        cursor.execute(
+            """INSERT INTO savedgames (username, gameid)
+                    VALUES (?, ?)""",
+                            (self.__current_username, self.__gameid),
+                        )
+        conn.commit()
+
+
     def run(self):
         self.__root.mainloop()
 
+
+###########
+# Group A #
+# Hashing #
+###########
+
 def hash_password(pswd):
-    # TODO insert hashing algorithm here
     pswd = hashlib.sha256(pswd.encode('utf-8')).hexdigest()
     return pswd
 
