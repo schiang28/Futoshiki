@@ -863,7 +863,6 @@ class Gui(Ui):
 
         # gets number of rows from puzzle table and assinged to variable gamelength
         gamelength = len(cursor.execute("""SELECT * FROM puzzles""").fetchall()) + 1
-        print(gamelength)
 
         cursor.execute(
             """INSERT INTO puzzles (gameid, time, grid_size, difficulty)

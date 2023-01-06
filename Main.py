@@ -2,6 +2,8 @@ from Ui import Terminal, Gui
 from sys import argv
 
 
+# Display menu option to the terminal
+# The user should press g or t to choose between the GUI and terminal
 def usage():
     print(
         f"""

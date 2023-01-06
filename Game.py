@@ -8,6 +8,7 @@ class Game:
     # EMPTY represent an empty cell
     EMPTY = " "
 
+    # defining attributes of the Game class
     def __init__(self):
         self._board = None
         self._grid_size = None
@@ -26,6 +27,7 @@ class Game:
                 display += " ".join(self._board[row]) + " | " + "\n"
         return display
 
+    # getter to return the board
     @property
     def get_board(self):
         return self._board
@@ -41,33 +43,50 @@ class Game:
     def get_board_num(self, row, col):
         return self._board[row][col]
 
+    # setter which takes in a row and column number, and plays the value to the board at the specified row and column
+    # entering a value into the board counts as a move, therefore this is also pushed onto the moves stack
     def set_board(self, row, col, value):
         self.__moves.append((row, col, self._board[row][col]))
         self._board[row][col] = value
 
+    # getter which returns the grid size of the board
+    # this should be an integer, e.g. 4 for a 4 by 4 grid
     @property
     def get_grid_size(self):
         return self._grid_size
 
+    # setter which takes in an integer value and sets the grid size
     def set_grid_size(self, value):
         self._grid_size = value
 
+    # each cell in the current board state is assigned the value it should be in the answer grid
+    # this method is called when the user wants to see the answer if they have given up the puzzle
     def show_answer(self):
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
                 self._board[row][col] = self.__answer[row][col]
 
+    # method for creating the grid (takes in size and difficulty)
     def create_grid(self, size, difficulty):
         self.__difficulty = difficulty
+        
+        # the board is initialised using a 2D numpy array, which is filled with 'empty' cells
+        # a row or column of the board is (size * 2 - 1) as inequalities and spaces between cells are also stores in the board
         self.__board_empty = np.full((size * 2 - 1, size * 2 - 1), Game.EMPTY)
+        
+        # a list of cell numbers are also initialised, so that random cells can be chosen and removed later on during generation
         self.__cells = list(range((self._grid_size * 2 - 1) ** 2))
+
+        # the grid is filled to create a latin square and puzzle is generated from that latin square
         self.__fill(self.__board_empty)
         self.__fill_inequalities()
         self.__generate()
 
         # changing of inequalities for displaying to gui
+        # a step of 2 is used when looping as the inequalities between cells are stored at every odd index
         for i in range(1, len(self.file), 2):
             for j in range(0, len(self.file[i]), 2):
+                # for vertical adjacent cells with inequalities between them, ^ and v are used rather than < and >
                 if self.file[i][j] == "<":
                     self.file[i][j] = "^"
                 if self.file[i][j] == ">":
@@ -83,7 +102,7 @@ class Game:
         fixed = []
         for row in range(0, len(self.file), 2):
             for col in range(0, len(self.file[row]), 2):
-                # loops through each row and column of the original puzzle
+                # loops through each row and column of the original puzzle (with step of 2 to loop through each value)
                 if self.file[row][col] != Game.EMPTY:
                     # if the cell already has a number in it, append it's row and column number
                     # to the list 'fixed'
@@ -94,39 +113,56 @@ class Game:
         self._board = (deepcopy(self.file)).tolist()
         self.__fixed = fixed
 
+    # method to check if there are any mistakes in the user's current answer
     def check(self):
-        # return True if answer = current board
+        # return True if the user's answer is the same as the answer of the puzzle
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
                 if self._board[row][col] != self.__answer[row][col]:
+                    # returns false if mismatching values are found in a cell
                     return False
         return True
 
+    # method to check that the user's move entered is a valid move
     def is_valid(self, row, col, choice):
-        # notifies the user that there is same number in row or grid or doesn't satisfy inequality
+        # notifies the user that there is already the same number in the same row or colum
+        # notifies the user if there is an inequality that isn't satisfied
+
         if (row, col) not in self.__fixed:
+            # only checks numbers that are entered by the user, i.e. not a fixed cell
             if choice not in self._board[row * 2 - 2] and choice not in [
                 i[col * 2 - 2] for i in self._board
             ]:
+                # checks that there are no duplicate numbers in the same row and column
                 return True
             print("same number in row or column, so invalid move")
             return False
+        
+        # if the row and column number happens to be a fixed cell, an appropriate message is displayed to the user
         print("tile is fixed, so invalid move")
         return False
 
+    # method that plays the user entered value into their row and column choice
     def play(self, row, col, choice):
-        # choice of number is played to respective row and column, this play is appended to a stack of moves
+        # the original value in that cell is assigned to a variable
         original = self._board[(row - 1) * 2][(col - 1) * 2]
+
+        # for terminal mode, the the user enters 'x', this clears the cell that they chose
         if choice != "x":
             self._board[(row - 1) * 2][(col - 1) * 2] = choice
         else:
             self._board[(row - 1) * 2][(col - 1) * 2] = Game.EMPTY
+
+        # a message with the value and cell is displayed to the terminal
         print(f"played {choice} at {row},{col}")
-        # moves contains three tuple of row, col, original
+        
+        # the row and column number, as well as the original number in that cell is pushed onto the moves stack
         self.__moves.append(((row - 1) * 2, (col - 1) * 2, original))
 
+    # method to restart the puzzle if the user wishes to
     def restart(self):
-        # restarts puzzle by recopying original file
+        # restarts puzzle by recopying original file and assigns it to the current board state
+        # the moves stack is re-initalised to an empty stack
         self._board = (deepcopy(self.file)).tolist()
         self.__moves = []
 
@@ -136,22 +172,25 @@ class Game:
     # Stack Operations #
     ####################
 
+    # method to undo the user's most recent move
     def undo(self):
         # undo move by popping from moves stack, if stack empty returns -1
         if len(self.__moves) > 0:
             # if the stack isn't empty, undo the move at the top of the stack, pop the move from the stack, and returns 1
-            # if the stack is empty, return -1
             undomove = self.__moves[-1]
             self._board[undomove[0]][undomove[1]] = undomove[2]
             self.__moves.pop()
             return 1
         else:
+            # if the stack is empty, return -1
             return -1
 
+    # method to check if there are any mistakes in the user's answer
     def mistakefound(self):
         # returns true if a mistake is found in player's entered answers. Ignores pencil markings and empty cells
         for row in range(0, len(self._board), 2):
             for col in range(0, len(self._board[row]), 2):
+                # checks that the cell is the wrong value, if it isn't empty and if there are any pencil markings in that cell
                 if (
                     self._board[row][col] != self.__answer[row][col]
                     and self._board[row][col] != Game.EMPTY
