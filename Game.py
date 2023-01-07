@@ -325,8 +325,7 @@ class Game:
             self.__end_solver = True
 
     # method that returns all the possible values a certain cell can have
-    def __get_possible_values(self, grid, row, col, current_values):
-        print(row, col, current_values)
+    def __get_possible_values(self, grid, row, col, current_values, firsttime):
         # loops through current possible values (acts sort of like pencil markings)
         for i in current_values.copy():
             # checks for duplicate numbers in row
@@ -378,12 +377,47 @@ class Game:
             except:
                 pass
 
-        # take into account pencil markings and in row logic
+        if len(current_values) == 1:
+            return current_values
+
+        for i in grid:
+            print(i)
+        print("")
+
+        if not firsttime:
+            # loop through row values and combine values including possible values
+            rowsvalues = ""
+            # key errors why?
+            for i in range(0, len(self.__answer), 2):
+                if grid[row][i] != Game.EMPTY:
+                    rowsvalues += grid[row][i]
+                else:
+                    rowsvalues += ''.join([str(j) for j in self.__possible_values[(row, i)]])
+            for val in current_values:
+                if rowsvalues.count(str(val)) == 1:
+                    return [val]
+
+            # loop through column values and combine values including possible values
+            columnvals = ""
+            for i in range(0, len(self.__answer), 2):
+                if grid[i][col] != Game.EMPTY:
+                    columnvals += grid[i][col]
+                else:
+                    columnvals += ''.join([str(j) for j in self.__possible_values[(i, col)]])
+            for val in current_values:
+                if columnvals.count(str(val)) == 1:
+                    return [val]
+
         return current_values
 
     # human solver which returns either True of False depending if the puzzle is human solvable or not
     def __human_solver(self, grid):
-        possible_values = {}
+
+        ################
+        # Group A      #
+        # Dictionaries #
+        ################
+        self.__possible_values = {}
         contn = False
 
         # loops through all values of the grid
@@ -392,7 +426,7 @@ class Game:
                 # for the cells that are empty, the possible values which that cell can be is added to a dictionary
                 if grid[row][col] == Game.EMPTY:
                     contn = True
-                    possible_values[(row, col)] = self.__get_possible_values(grid, row, col, list(range(1, self._grid_size + 1)))
+                    self.__possible_values[(row, col)] = self.__get_possible_values(grid, row, col, list(range(1, self._grid_size + 1)), True)
         
         if not contn:
             print("already solved")
@@ -401,12 +435,12 @@ class Game:
         # for all the cells which there is only 1 possible value, this is updated to the grid
         # the keys of these these cells are then deleted from the dictionary
         to_delete = []
-        for (row, col), v in possible_values.items():
+        for (row, col), v in self.__possible_values.items():
             if len(v) == 1:
                 grid[row][col] = str(v[0])
                 to_delete.append((row, col))
         for i in to_delete:
-            del possible_values[i]
+            del self.__possible_values[i]
         
         for i in grid:
             print(i)
@@ -418,10 +452,10 @@ class Game:
             for row in range(0, len(self.__answer), 2):
                 for col in range(0, len(self.__answer[row]), 2):
                     if grid[row][col] == Game.EMPTY:
-                        possible_values[(row, col)] = self.__get_possible_values(grid, row, col, possible_values[(row, col)])
+                        self.__possible_values[(row, col)] = self.__get_possible_values(grid, row, col, self.__possible_values[(row, col)], False)
             
             to_delete = []
-            for (row, col), v in possible_values.items():
+            for (row, col), v in self.__possible_values.items():
                 if len(v) == 1:
                     # if a cell only has one possible value, this is assigned to the grid
                     # and contn is set to True meaning the loop will continue for another round
@@ -430,7 +464,7 @@ class Game:
                     to_delete.append((row, col))
             # delete the cells which have already been deduced from the dictionary
             for i in to_delete:
-                del possible_values[i]
+                del self.__possible_values[i]
 
             # if contn is false then the program will exit the while loop
             if not contn:
