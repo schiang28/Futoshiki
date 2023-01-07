@@ -851,30 +851,32 @@ class Gui(Ui):
 
         # if timings are enabled, add the timings to the record
         # otherwise insert "n/a" to indicate the user did not have timings enabled for that puzzle
-        if self.__timer:
-            temptime = self.__time
-        else:
-            temptime = "n/a"
         
-        ###########################
-        # Group A                 #
-        # Aggregate SQL Functions #
-        ###########################
+        if self.__logged_in:
+            if self.__timer:
+                temptime = self.__time
+            else:
+                temptime = "n/a"
+            
+            ###########################
+            # Group A                 #
+            # Aggregate SQL Functions #
+            ###########################
 
-        # gets number of rows from puzzle table and assinged to variable gamelength
-        gamelength = len(cursor.execute("""SELECT * FROM puzzles""").fetchall()) + 1
+            # gets number of rows from puzzle table and assinged to variable gamelength
+            gamelength = len(cursor.execute("""SELECT * FROM puzzles""").fetchall()) + 1
 
-        cursor.execute(
-            """INSERT INTO puzzles (gameid, time, grid_size, difficulty)
-                    VALUES (?, ?, ?, ?)""",
-                            (gamelength, temptime, self.__game.get_grid_size, self.__difficulty),
-                        )
-        cursor.execute(
-            """INSERT INTO savedgames (username, gameid)
-                    VALUES (?, ?)""",
-                            (self.__current_username, gamelength),
-                        )
-        conn.commit()
+            cursor.execute(
+                """INSERT INTO puzzles (gameid, time, grid_size, difficulty)
+                        VALUES (?, ?, ?, ?)""",
+                                (gamelength, temptime, self.__game.get_grid_size, self.__difficulty),
+                            )
+            cursor.execute(
+                """INSERT INTO savedgames (username, gameid)
+                        VALUES (?, ?)""",
+                                (self.__current_username, gamelength),
+                            )
+            conn.commit()
 
 
     def run(self):

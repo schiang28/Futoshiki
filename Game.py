@@ -82,6 +82,9 @@ class Game:
         self.__fill_inequalities()
         self.__generate()
 
+        # TODO HUMAN SOLVER
+        self.__human_solver(deepcopy(self.file))
+
         # changing of inequalities for displaying to gui
         # a step of 2 is used when looping as the inequalities between cells are stored at every odd index
         for i in range(1, len(self.file), 2):
@@ -316,8 +319,79 @@ class Game:
                     # when no values from 1 to n work for a specific cell
                     return
         self.__n_solutions += 1
+        
+        # if there is more than 1 solution to a puzzle, then this is invalid
         if self.__n_solutions == 2:
             self.__end_solver = True
+
+    def __get_possible_values(self, grid, row, col, current_values):
+        # checks for duplicate numbers in any row or column
+        for i in current_values.copy():
+            # print(i, row, col)
+            if str(i) in [r for r in grid[row]] and i in current_values:
+                current_values.remove(i)
+            if str(i) in [r[col] for r in grid] and i in current_values:
+                current_values.remove(i)
+
+        return current_values
+        # now need to take into account inequalities
+
+    def __human_solver(self, grid):
+        # returns True or False
+        possible_values = {}
+        contn = False
+
+        for row in range(0, len(self.__answer), 2):
+            for col in range(0, len(self.__answer[row]), 2):
+                if grid[row][col] == Game.EMPTY:
+                    contn = True
+                    possible_values[(row, col)] = self.__get_possible_values(grid, row, col, list(range(1, self._grid_size + 1)))
+        
+        if not contn:
+            return
+                
+        to_delete = []
+        for (row, col), v in possible_values.items():
+            if len(v) == 1:
+                grid[row][col] = str(v[0])
+                to_delete.append((row, col))
+        for i in to_delete:
+            del possible_values[i]
+        
+        for i in grid:
+            print(i)
+        print("")
+        
+        while True:
+            contn = False
+            for row in range(0, len(self.__answer), 2):
+                for col in range(0, len(self.__answer[row]), 2):
+                    if grid[row][col] == Game.EMPTY:
+                        possible_values[(row, col)] = self.__get_possible_values(grid, row, col, possible_values[(row, col)])
+            
+            to_delete = []
+            for (row, col), v in possible_values.items():
+                if len(v) == 1:
+                    contn = True
+                    grid[row][col] = str(v[0])
+                    to_delete.append((row, col))
+            for i in to_delete:
+                del possible_values[i]
+
+            if not contn:
+                break
+        
+            for i in grid:
+                print(i)
+            print("")
+
+        for row in range(0, len(self.__answer), 2):
+            for col in range(0, len(self.__answer[row]), 2):
+                if grid[row][col] == Game.EMPTY:
+                    print("solution is not complete, not human solvable :(")
+                    return False
+        print("solution is complete! It's human solvable :)")
+        return True
 
 
     ###################################
@@ -346,7 +420,8 @@ class Game:
             loop = 2
 
         for _ in range(loop):
-            for i in range(len(self.__cells) + diff):
+            i = 0
+            while i < (len(self.__cells) + diff):
                 row = self.__cells[i] // (self._grid_size * 2 - 1)
                 col = self.__cells[i] % (self._grid_size * 2 - 1)
                 if self.file[row][col] != Game.EMPTY:
@@ -360,6 +435,8 @@ class Game:
 
                     if self.__n_solutions != 1:
                         self.file[row][col] = backup
+
+                i += 1
 
 
 if __name__ == "__main__":
