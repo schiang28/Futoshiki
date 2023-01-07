@@ -414,7 +414,14 @@ class Game:
                 if columnvals.count(str(val)) == 1:
                     return [val]
 
+        # returns final possible values of respective cell
         return current_values
+
+
+    ###################################
+    # Group A                         #
+    # User-defined complex Algorithms #
+    ###################################
 
     # human solver which returns either True of False depending if the puzzle is human solvable or not
     def __human_solver(self, grid):
@@ -448,7 +455,7 @@ class Game:
             del self.__possible_values[i]
         
 
-        # while loop continues until no cells can be further deduced anymore
+        # while loop continues until no cells can be further logically deduced anymore
         while True:
             contn = False
             for row in range(0, len(self.__answer), 2):
@@ -473,6 +480,7 @@ class Game:
                 break
         
 
+        # final check to see if the puzzle has been solved after no values can be deduced anymore
         for row in range(0, len(self.__answer), 2):
             for col in range(0, len(self.__answer[row]), 2):
                 if grid[row][col] == Game.EMPTY:
