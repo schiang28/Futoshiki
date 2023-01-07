@@ -82,9 +82,6 @@ class Game:
         self.__fill_inequalities()
         self.__generate()
 
-        # TODO HUMAN SOLVER
-        self.__human_solver(deepcopy(self.file))
-
         # changing of inequalities for displaying to gui
         # a step of 2 is used when looping as the inequalities between cells are stored at every odd index
         for i in range(1, len(self.file), 2):
@@ -369,20 +366,29 @@ class Game:
                                 current_values.remove(i)
                 else:
                     # cell cannot be 1 if it has to be larger than a cell
-                    if ((inequality == ">" and not reverse) or (inequality == "<" and reverse)) and 1 in current_values:
-                        current_values.remove(1)
-                    elif ((inequality == "<" and not reverse) or (inequality == ">" and reverse)) and self._grid_size in current_values:
-                        # if cell has to be smaller than another cell, it can't be the grid size value
-                        current_values.remove(self._grid_size)
+                    if ((inequality == ">" and not reverse) or (inequality == "<" and reverse)):
+                        if 1 in current_values:
+                            current_values.remove(1)
+                        
+                        # if there are the same two possible values in adjacent cells and inequality between them, we can deduce the cell's value
+                        if len(current_values) == 2 and (current_values == self.__possible_values[(row + (dr * 2)), (col + (dc * 2))]):
+                            self.__possible_values[(row + (dr * 2)), (col + (dc * 2))] = [min(current_values)]
+                            return [max(current_values)]
+                    elif ((inequality == "<" and not reverse) or (inequality == ">" and reverse)):
+                        if self._grid_size in current_values:
+                            # if cell has to be smaller than another cell, it can't be the grid size value
+                            current_values.remove(self._grid_size)
+
+                        if len(current_values) == 2 and (current_values == self.__possible_values[(row + (dr * 2)), (col + (dc * 2))]):
+                            self.__possible_values[(row + (dr * 2)), (col + (dc * 2))] = [max(current_values)]
+                            return [min(current_values)]
+                    
             except:
                 pass
 
         if len(current_values) == 1:
             return current_values
 
-        for i in grid:
-            print(i)
-        print("")
 
         if not firsttime:
             # loop through row values and combine values including possible values
@@ -429,7 +435,6 @@ class Game:
                     self.__possible_values[(row, col)] = self.__get_possible_values(grid, row, col, list(range(1, self._grid_size + 1)), True)
         
         if not contn:
-            print("already solved")
             return True
                 
         # for all the cells which there is only 1 possible value, this is updated to the grid
@@ -442,9 +447,6 @@ class Game:
         for i in to_delete:
             del self.__possible_values[i]
         
-        for i in grid:
-            print(i)
-        print("")
 
         # while loop continues until no cells can be further deduced anymore
         while True:
@@ -470,16 +472,11 @@ class Game:
             if not contn:
                 break
         
-            for i in grid:
-                print(i)
-            print("")
 
         for row in range(0, len(self.__answer), 2):
             for col in range(0, len(self.__answer[row]), 2):
                 if grid[row][col] == Game.EMPTY:
-                    print("solution is not complete, not human solvable :(")
                     return False
-        print("solution is complete! It's human solvable :)")
         return True
 
 
@@ -522,7 +519,7 @@ class Game:
                     self.__end_solver = False
                     self.__solve(board_copy)
 
-                    if self.__n_solutions != 1:
+                    if self.__n_solutions != 1 or not self.__human_solver(deepcopy(board_copy)):
                         self.file[row][col] = backup
 
                 i += 1
