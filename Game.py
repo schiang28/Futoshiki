@@ -324,32 +324,82 @@ class Game:
         if self.__n_solutions == 2:
             self.__end_solver = True
 
+    # method that returns all the possible values a certain cell can have
     def __get_possible_values(self, grid, row, col, current_values):
-        # checks for duplicate numbers in any row or column
+        print(row, col, current_values)
+        # loops through current possible values (acts sort of like pencil markings)
         for i in current_values.copy():
-            # print(i, row, col)
+            # checks for duplicate numbers in row
             if str(i) in [r for r in grid[row]] and i in current_values:
                 current_values.remove(i)
+            # checks for duplicate numbers in column
             if str(i) in [r[col] for r in grid] and i in current_values:
                 current_values.remove(i)
+            
+        # check for inequalities
+        deltas = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
+        # loops through each side of each cell to check if there are inequalities present
+        for d in deltas:
+            # if there is only one possible value to a cell then return that value
+            # as there is no point in continuing
+            if len(current_values) == 1:
+                return current_values
+
+            dr, dc = d[0], d[1]
+            try:
+                # if inequality is present on any side of the cell
+                inequality = grid[row + (dr * 1)][col + (dc * 1)]
+                value = grid[row + (dr * 2)][col + (dc * 2)]
+                if d == (0, 1) or d == (1, 0):
+                    reverse = False
+                else:
+                    reverse = True
+
+                if value != Game.EMPTY:
+                    value = int(value)
+
+                    # if there is a value present on the other side of the inequality, further values can be eliminated
+                    if (inequality == ">" and not reverse) or (inequality == "<" and reverse):
+                        for i in current_values.copy():
+                            if i <= value:
+                                current_values.remove(i)
+                    elif (inequality == "<" and not reverse) or (inequality == ">" and reverse):
+                        for i in current_values.copy():
+                            if i >= value:
+                                current_values.remove(i)
+                else:
+                    # cell cannot be 1 if it has to be larger than a cell
+                    if ((inequality == ">" and not reverse) or (inequality == "<" and reverse)) and 1 in current_values:
+                        current_values.remove(1)
+                    elif ((inequality == "<" and not reverse) or (inequality == ">" and reverse)) and self._grid_size in current_values:
+                        # if cell has to be smaller than another cell, it can't be the grid size value
+                        current_values.remove(self._grid_size)
+            except:
+                pass
+
+        # take into account pencil markings and in row logic
         return current_values
-        # now need to take into account inequalities
 
+    # human solver which returns either True of False depending if the puzzle is human solvable or not
     def __human_solver(self, grid):
-        # returns True or False
         possible_values = {}
         contn = False
 
+        # loops through all values of the grid
         for row in range(0, len(self.__answer), 2):
             for col in range(0, len(self.__answer[row]), 2):
+                # for the cells that are empty, the possible values which that cell can be is added to a dictionary
                 if grid[row][col] == Game.EMPTY:
                     contn = True
                     possible_values[(row, col)] = self.__get_possible_values(grid, row, col, list(range(1, self._grid_size + 1)))
         
         if not contn:
-            return
+            print("already solved")
+            return True
                 
+        # for all the cells which there is only 1 possible value, this is updated to the grid
+        # the keys of these these cells are then deleted from the dictionary
         to_delete = []
         for (row, col), v in possible_values.items():
             if len(v) == 1:
@@ -361,7 +411,8 @@ class Game:
         for i in grid:
             print(i)
         print("")
-        
+
+        # while loop continues until no cells can be further deduced anymore
         while True:
             contn = False
             for row in range(0, len(self.__answer), 2):
@@ -372,12 +423,16 @@ class Game:
             to_delete = []
             for (row, col), v in possible_values.items():
                 if len(v) == 1:
+                    # if a cell only has one possible value, this is assigned to the grid
+                    # and contn is set to True meaning the loop will continue for another round
                     contn = True
                     grid[row][col] = str(v[0])
                     to_delete.append((row, col))
+            # delete the cells which have already been deduced from the dictionary
             for i in to_delete:
                 del possible_values[i]
 
+            # if contn is false then the program will exit the while loop
             if not contn:
                 break
         
