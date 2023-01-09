@@ -6,6 +6,7 @@ import time as time
 import hashlib
 
 try:
+    # try connecting to the database if it exists
     f = open("userdatabase.db")
     conn = sqlite3.connect("userdatabase.db")
     cursor = conn.cursor()
@@ -18,6 +19,8 @@ except IOError:
     
     conn = sqlite3.connect("userdatabase.db")
     cursor = conn.cursor()
+
+    # create table of users containing information such as username, password, number of games, completed games and times
     cursor.execute(
         """CREATE TABLE users (
                     username text,
@@ -27,6 +30,8 @@ except IOError:
                     timer real
                     )"""
     )
+
+    # create table of puzzles including gameid, time to complete the game, grid size and difficulty
     cursor.execute(
         """CREATE TABLE puzzles (
                     gameid integer,
@@ -36,6 +41,7 @@ except IOError:
                     )"""
     )
 
+    # create tables with each gamid and its corresponding user
     cursor.execute(
         """CREATE TABLE savedgames (
                     username text,
@@ -78,6 +84,7 @@ class Gui(Ui):
         frame = Frame(root)
         frame.pack()
 
+        # Buttons that appear on the main page
         Button(
             frame, text="Play", command=self.__select_options, height=2, width=25
         ).pack()
@@ -136,7 +143,7 @@ class Gui(Ui):
         self.__canvas.bind("<Button-1>", self.__cell_clicked)
         self.__canvas.bind("<Key>", self.__key_pressed)
 
-        # additional buttons and features when playing
+        # additional buttons and features when playing in the game window
         self.__game_win = game_win
         dismiss_button = Button(
             game_win, text="Dismiss", command=self.__dismiss_game_win, width=10
@@ -175,6 +182,7 @@ class Gui(Ui):
         if self.__timer and self.__logged_in:
             self.__start = time.time()
 
+    # method that draws grid of puzzle
     def __draw_grid(self):
         for row in range(self.__game.get_grid_size):
             for l in range(self.__game.get_grid_size * 2):
@@ -197,10 +205,13 @@ class Gui(Ui):
     def __draw_puzzle(self):
         self.__canvas.delete("numbers")
         numbers = self.__game.get_board
+        
+        # loop through every cell of the puzzle
         for row in range(len(numbers)):
             for col in range(len(numbers[row])):
                 if len(numbers[row][col]) == 1:
-                    # pen marking
+
+                    # if there is only once number in a cell, write that number on the canvas
                     self.__canvas.create_text(
                         Gui.MARGIN + col * Gui.SIDE + Gui.SIDE / 2,
                         Gui.MARGIN + row * Gui.SIDE + Gui.SIDE / 2,

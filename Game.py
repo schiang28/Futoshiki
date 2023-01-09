@@ -208,6 +208,7 @@ class Game:
                     empty_cells.append((row, col))
 
         try:
+            # chooses random cell from all empty cells
             rand_cell = choice(empty_cells)
             rand_ans = self.__answer[rand_cell[0]][rand_cell[1]]
             self._board[rand_cell[0]][rand_cell[1]] = rand_ans
@@ -234,23 +235,35 @@ class Game:
             if board[row][i * 2] == str(val) or board[i * 2][col] == str(val):
                 return False
 
-        # checking for inequalities
+        # checks that the current row isn't the top row
         if row > 0 and board[row - 2][col] != Game.EMPTY:
+            # checks whether value in cell satisfies the inequality with the cell above it
             if board[row - 1][col] == "<" and val < int(board[row - 2][col]):
+                # if a value is less than the cell above it when it's supposed to be greater
+                # this value isn't possible in this cell, therefore return False
                 return False
             if board[row - 1][col] == ">" and val > int(board[row - 2][col]):
                 return False
+
+        # checks that the current row isn't the bottom row
         if row < self._grid_size * 2 - 2 and board[row + 2][col] != Game.EMPTY:
+            # checks whether value in cell satisfies the inequality with the cell below it
             if board[row + 1][col] == "<" and val > int(board[row + 2][col]):
                 return False
             if board[row + 1][col] == ">" and val < int(board[row + 2][col]):
                 return False
+        
+        # checks that the current column isn't the left most column
         if col > 0 and board[row][col - 2] != Game.EMPTY:
+            # checks whether value in cell satisfies the inequality with the cell on the left
             if board[row][col - 1] == "<" and val < int(board[row][col - 2]):
                 return False
             if board[row][col - 1] == ">" and val > int(board[row][col - 2]):
                 return False
+
+        # checks that the current column isn't the right most column
         if col < self._grid_size * 2 - 2 and board[row][col + 2] != Game.EMPTY:
+            # checks whether value in cell satisfies the inequality with the cell on the right
             if board[row][col + 1] == "<" and val > int(board[row][col + 2]):
                 return False
             if board[row][col + 1] == ">" and val < int(board[row][col + 2]):
@@ -379,6 +392,7 @@ class Game:
                             # if cell has to be smaller than another cell, it can't be the grid size value
                             current_values.remove(self._grid_size)
 
+                        # if there are the same two possible values in adjacent cells and inequality between them, we can deduce the cell's value
                         if len(current_values) == 2 and (current_values == self.__possible_values[(row + (dr * 2)), (col + (dc * 2))]):
                             self.__possible_values[(row + (dr * 2)), (col + (dc * 2))] = [max(current_values)]
                             return [min(current_values)]
@@ -386,6 +400,7 @@ class Game:
             except:
                 pass
 
+        # if there is only one possible value left, return that value immediately
         if len(current_values) == 1:
             return current_values
 
@@ -393,12 +408,13 @@ class Game:
         if not firsttime:
             # loop through row values and combine values including possible values
             rowsvalues = ""
-            # key errors why?
             for i in range(0, len(self.__answer), 2):
                 if grid[row][i] != Game.EMPTY:
                     rowsvalues += grid[row][i]
                 else:
                     rowsvalues += ''.join([str(j) for j in self.__possible_values[(row, i)]])
+
+            # we can determine a value if it is the only pencil marking in that row
             for val in current_values:
                 if rowsvalues.count(str(val)) == 1:
                     return [val]
@@ -410,6 +426,8 @@ class Game:
                     columnvals += grid[i][col]
                 else:
                     columnvals += ''.join([str(j) for j in self.__possible_values[(i, col)]])
+
+            # we can determine a value if it is the only pencil marking in that column
             for val in current_values:
                 if columnvals.count(str(val)) == 1:
                     return [val]
@@ -521,12 +539,17 @@ class Game:
                 if self.file[row][col] != Game.EMPTY:
                     backup = self.file[row][col]
                     self.file[row][col] = Game.EMPTY
+                    # remove a value from a cell if it is not empty
 
                     board_copy = np.copy(self.file)
                     self.__n_solutions = 0
                     self.__end_solver = False
+
+                    # solve the board
                     self.__solve(board_copy)
 
+                    # if the current puzzle does not have a unique solution and is not human solvable
+                    # that value that was just removed is replaced
                     if self.__n_solutions != 1 or not self.__human_solver(deepcopy(board_copy)):
                         self.file[row][col] = backup
 
