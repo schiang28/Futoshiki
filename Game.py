@@ -232,6 +232,7 @@ class Game:
     def __possible(self, board, row, col, val):
         # checks if a value can be played at row and column of board by checking for duplicates and whether it satisfies inequality constraints
         for i in range(self._grid_size):
+            # as inequalities are also stored in the grid, i * 2 loops through every even index, i.e. an actual value
             if board[row][i * 2] == str(val) or board[i * 2][col] == str(val):
                 return False
 
@@ -549,7 +550,7 @@ class Game:
                     self.__solve(board_copy)
 
                     # if the current puzzle does not have a unique solution and is not human solvable
-                    # that value that was just removed is replaced
+                    # that value that was just removed (backup) is replaced
                     if self.__n_solutions != 1 or not self.__human_solver(deepcopy(board_copy)):
                         self.file[row][col] = backup
 
