@@ -1,0 +1,618 @@
+commit 19e9ccf101ce49b4560842f0927f39a779271052
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jan 11 11:38:13 2023 +0000
+
+    nea
+
+commit c66383a2f900931f026baabbd50ed27dd505bce4
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jan 9 18:42:19 2023 +0000
+
+    commented Ui.py
+
+commit c73a6889ae5fdfd29fd560c58dbfb265a3772068
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jan 9 17:57:50 2023 +0000
+
+    commenting Ui.py
+
+commit dd3b2e1295bf150c477471d86c3e808f9dc60a0b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jan 7 16:38:30 2023 +0000
+
+    group a user-defined complex algorithms
+
+commit f49d07f33e2231634271b1ad1b9b61cb3eb5b526
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jan 7 16:15:15 2023 +0000
+
+    human solver implemented
+
+commit 697d3b6837b6d3b3770adbd882b2b8948bfa42c4
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jan 7 15:41:56 2023 +0000
+
+    human solver can no look at pencil markings to determing value of cell
+
+commit ae21ad9025bd3bc9ef568b2dcd291c624480150e
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jan 7 14:29:44 2023 +0000
+
+    simple human solver which takes into account inequalities
+
+commit 47b4a2b6838c01eb2f643e8cac1a4ee9deb0672a
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jan 7 12:58:43 2023 +0000
+
+    human solver method which can solve very straightforward puzzles
+
+commit 5b22344f058f437e06b5776983f7dc75c5bc288e
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jan 6 09:52:47 2023 +0000
+
+    commenting code
+
+commit 2a068bf64b30c8a484bd517ec15c58a17adff8ee
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jan 5 22:15:35 2023 +0000
+
+    formatting stats page
+
+commit d239fa8d2e273cb0cc5043305b1627cdb85ed82d
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jan 5 19:27:22 2023 +0000
+
+    user can now view their saved games on the stats page
+
+commit 900ed638366d1a1f31696ae3cc044bf1fa670e57
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jan 5 18:54:35 2023 +0000
+
+    user can now save games to their account
+
+commit 8e01c5a65ea392f516ea13ffddc2de8dbcd2623e
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jan 5 18:10:13 2023 +0000
+
+    complex database model
+
+commit dc8d0cd28264e2be1f2ef52d4183122c3db66dea
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jan 5 15:04:51 2023 +0000
+
+    added hashing algorithm
+
+commit e950030d57bbff8e6f83c5e75a372b95e098c054
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jan 5 13:36:00 2023 +0000
+
+    only creates new database if file doesn't exist
+
+commit 81c2494cf8457686b90d4f58c661068c7076777e
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jan 4 20:07:08 2023 +0000
+
+    technical solution comments
+
+commit 993b85bd2e768999f93d5a4beb8282c87e8f28cb
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jan 4 18:34:43 2023 +0000
+
+    technical solution comments
+
+commit 3284f3aa2609c8a87a2891396f829ed92c936849
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jan 4 17:15:03 2023 +0000
+
+    group skill commenting
+
+commit fd0cfab2283649aad9ef87b7eb7b8abb2e4a571b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Dec 5 19:51:19 2022 +0000
+
+    pseudocode
+
+commit 446c06d338cc3c5f4725c7aa9a8f0cd184230c24
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Oct 27 16:36:22 2022 +0100
+
+    update method to calculate average timings for a user
+
+commit 8d8ba1235b45e83a84a4f575067bbe6ecff8fa4c
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Oct 27 12:07:14 2022 +0100
+
+    testing
+
+commit 114bb2620b308a302fd9ce7f0e6fd1faf0567c50
+Merge: 586fe07 d21c937
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Sep 6 15:41:34 2022 +0100
+
+    Merge branch 'master' of https://github.com/schiang28/NEA
+
+commit 586fe076230be5751bef26962573c324f4aa563a
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Sep 6 15:41:31 2022 +0100
+
+    database changes
+
+commit d21c93720b640e8fb311117dacc9f09ea552e521
+Author: sophie <73739479+schiang28@users.noreply.github.com>
+Date:   Thu Sep 1 06:58:26 2022 +0100
+
+    Update README.md
+
+commit d62daeda65086a5867997fda0d254396bb6e42a0
+Author: sophie <73739479+schiang28@users.noreply.github.com>
+Date:   Wed Jul 20 12:20:47 2022 +0100
+
+    Create README.md
+
+commit 0f104d299cfe2383146695b0f8066e8a628c2cbf
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 20 11:41:29 2022 +0100
+
+    objectives complete
+
+commit 35e19f7fc1b23f04a4310e677b4630e727635bd3
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 20 11:39:24 2022 +0100
+
+    user can change colour background
+
+commit b6766b7123a86540e0414c76441a45df096b0089
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 20 10:59:12 2022 +0100
+
+    stage 7.2 user can toggle timings in settings
+
+commit 0a8d7ccad05ef2cd22a249030cd364ec0237c308
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 20 10:51:34 2022 +0100
+
+    user has the option to choose if they want timings in settings
+
+commit 80c6acc8530a65088af88503e6d71861caaaad94
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 20 10:34:20 2022 +0100
+
+    displays average time for puzzle to complete in stats
+
+commit b555b5cc55e5445595ef0df32823b01b61a271c0
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 20 09:31:32 2022 +0100
+
+    7.1 settings button from main menu
+
+commit 8c2bd5e92f490df9702d26a45bbec25b8e1ea39c
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 11:28:29 2022 +0100
+
+    completed stage 6 comments
+
+commit 5c955e8c72bea23209d7fd67cea13b6c73bf82d2
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 11:23:20 2022 +0100
+
+    permanent database, stage 6 complete
+
+commit bf6d1520c6bae76bb6e80ca94682371679ff947c
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 11:08:42 2022 +0100
+
+    user can now view leaderboard on stats page
+
+commit c8036bad300cba136bec656e20d33b1ae1039ca3
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 10:47:41 2022 +0100
+
+    user can now see total and completed games on stats page
+
+commit 8535f7032088f4e213122dccd8172866c0f6d245
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 09:44:21 2022 +0100
+
+    6.8 user can log in and log out, and view empty stats page if logged in
+
+commit 56b707f8b636ca667a0839371e31f31f4e59dc3a
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 09:32:09 2022 +0100
+
+    stats button in main menu
+
+commit 0cd69a269779c58f6cfe2156ac08bd6a590af2c6
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 19 09:04:57 2022 +0100
+
+    6.3 user will be asked to enter a unique username
+
+commit 232b7aa185919a4c467ecdbd1d2408d5d29cc1a4
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jul 18 12:09:12 2022 +0100
+
+    created temporary user database
+
+commit e6b759177ae8e24ca76d2b93ffd656e06078c720
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 15 15:56:20 2022 +0100
+
+    adjusting difficulty levels
+
+commit 92f46fe5bd5e1117e916a6c8c636b8060f3a95ab
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 15 11:10:51 2022 +0100
+
+    stage 6.1 create new account gui window for user
+
+commit 73a3beb98442a6d68682a4d852dba5152359d69b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 15 10:09:35 2022 +0100
+
+    stage 5 complete
+
+commit 4377f9abbd3a5d230db056d9c4bd1d19b8463bc8
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 15 10:00:24 2022 +0100
+
+    three basic difficulty levels
+
+commit 4c344eeb8024f108d26a1619f991dfcfdee80faf
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 16:38:37 2022 +0100
+
+    commenting
+
+commit dbde1ad83e760108d2f622717757f4fd47c0192c
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 15:34:28 2022 +0100
+
+    stage 5 excluding 5.3
+
+commit 1d5e25a2d367794b2e3ed165d27f4f904c147281
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 13:40:29 2022 +0100
+
+    tidy up, commenting
+
+commit 148499829b2c348cd1b5ebc9a73a726f55748cab
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 13:12:15 2022 +0100
+
+    grid generation for different grid sizes, pencil markings work
+
+commit b9fa35eaffcd051aeea76b339d148acc5ddb1faf
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 12:42:53 2022 +0100
+
+    basic grid generation in gui but pencil markings do not work
+
+commit cba6e2cb1e1c9a1fbcfe23b5691e1e418427141d
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 12:00:00 2022 +0100
+
+    function that fills in inequalities to complete grid
+
+commit 28b84e73b5cd786f243d0383b8e52723753e40c4
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 14 11:46:37 2022 +0100
+
+    5.2 generation of filled latin square, only one size and difficulty. prints to terminal
+
+commit 94a88737c85a5a59e1ddc43f768fdcf65ff1a82b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 15:03:51 2022 +0100
+
+    stage 4 complete
+
+commit f3a94b90728ebddf32d0f2aed4282110eee04c45
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 14:33:31 2022 +0100
+
+    4.15 user can now save puzzles if they have solution or complete
+
+commit c829d596ff23f269eb10d3a141b9205d441b1383
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 14:06:37 2022 +0100
+
+    4.14 user can now view answer in gui
+
+commit df5ee459b3d5a3dae3da57919d5a3135c957c9ae
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 11:12:23 2022 +0100
+
+    4.13 user can undo moves in gui and a message is displayed if no moves to undo
+
+commit a3e64d988c53921853b7c1874204b5c239d5af34
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 11:00:13 2022 +0100
+
+    fixed hinting errors, can only be used on empty cells
+
+commit df60f147422f0225afb41b30f32bff97a0542330
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 10:49:47 2022 +0100
+
+    4.11 allows user to restart puzzle in gui
+
+commit 93dd1a14ae284695973e1388b0e9fdb586e9e819
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 10:46:02 2022 +0100
+
+    4.10 user can now use hints in gui
+
+commit d169b2375e29fa28e2dbf2005989544341caa906
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 10:09:05 2022 +0100
+
+    stage 4.9 additional buttons in gui
+
+commit 1ff46908cd5fc5ef4a96bf45d4bc61b6d4e7b87b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 09:57:09 2022 +0100
+
+    stage 4.8 checking answer will not consider pencil markings or empty cells
+
+commit 0f86592f58a0c49e8f88dc4211f2488f92fad86b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 09:49:46 2022 +0100
+
+    allows user to pencil mark numbers
+
+commit 5834dee157ea0b5912052917d940543d41091f77
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jul 13 09:26:53 2022 +0100
+
+    allows user to type in multiple numbers in one cell
+
+commit 0981e9eddd41c33d970d92fd74324ed82ecda1a3
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 12 13:40:00 2022 +0100
+
+    4.5 user can check for mistakes in gui
+
+commit 2bc1979cf69cbbf99f0fcca31131ceeca3c3480b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 12 13:15:23 2022 +0100
+
+    4.4 allows user to select grid difficulty and size before playing
+
+commit 1942bc96ae1bf591b87de1118bbeef14d530e7ee
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 12 12:13:56 2022 +0100
+
+    4.3 created user login page
+
+commit ea95f41046a57b982d78e915316ca6723be444f3
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 12 11:01:06 2022 +0100
+
+    4.2 help window complete
+
+commit 31bd60a1c13d8aee58b23636853a03579b23cf81
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jul 12 10:04:17 2022 +0100
+
+    help and login buttons stage 4.1
+
+commit 7dea71ff38a53b23b92634b201ec9e8dbf4f1e91
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jul 11 11:34:42 2022 +0100
+
+    post stage 3 commenting and edits
+
+commit a3ec8e8d1dff01526211a3f4107b450f730070fe
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jul 11 11:25:33 2022 +0100
+
+    allows user to view answer of puzzle and quit in terminal. Stage 3 complete.
+
+commit c5e7a9300cd73118ca686bb53e0737bbae4dd53f
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jul 11 11:03:43 2022 +0100
+
+    user can check for mistakes in terminal mode
+
+commit 4f92564fc1cde825839e3695321d33c25ae5494c
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sun Jul 10 23:07:01 2022 +0100
+
+    clearer ordering of user inputs
+
+commit 07101434f613b4467931c1a87e76a036dd54fb23
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sun Jul 10 21:50:42 2022 +0100
+
+    allows user to undo moves, unless no moves to undo, stage 3.3
+
+commit b08dc0dc93af8c21378334dfc6eb9554a8e524c5
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sun Jul 10 21:19:01 2022 +0100
+
+    allows user the option to restart game in terminal mode
+
+commit d809eca810fdde2fc82d6f9b4fc10e02de9dc443
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 12:51:46 2022 +0100
+
+    user can now play 7x7, stage 3.1 done
+
+commit 3573a43e0591792a72363620c04c4b0a1f0115a0
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 12:35:53 2022 +0100
+
+    user can now play 6x6 grid
+
+commit b888f65d13eaaece4da4347c6da9e9bdb788bd80
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 12:09:10 2022 +0100
+
+    user can now play 5x5 files from terminal
+
+commit 3c694f180f7792e12caa7c61b526a4889af3cb2f
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 11:27:54 2022 +0100
+
+    user can enter difficulty preference for 4x4 grids easy or hard
+
+commit d2e7a94abbbc577231cc61848068511c99c2eeac
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 10:45:04 2022 +0100
+
+    allows user to set the grid size from outside class,
+
+commit 053e0678e95765107b56d3e3b14a4466f5579325
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 10:39:37 2022 +0100
+
+    grid size now not constant, create getter for grid size
+
+commit e99628741bbd3515f7369efbcba73f125156d2f7
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 10:23:24 2022 +0100
+
+    displays gui message when puzzle correct, and does not allow user to edit text box. stage 2 complete.
+
+commit 66660c5f75cd02abec500790111d7d4ff7165d67
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 00:07:52 2022 +0100
+
+    user cannot type anymore if puzzle is correct, message is displayed in the terminal
+
+commit 82a629c488fe5f1237fa44377ea5aaa6f82761d9
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jul 9 00:04:12 2022 +0100
+
+    allows user to clear the square by pressing backspace
+
+commit 4d08181b527085539a30ec2e829a0c751bb52a00
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 8 23:48:20 2022 +0100
+
+    allows users to select and enter number in square
+
+commit 3d87ff4033fe203aafd8a6b97fd3864df655aa8d
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 8 23:16:22 2022 +0100
+
+    made board attribute protected and added getter so gui can use it to create puzzle
+
+commit 3b1aec9c8c47584010a78717fee56c0110a1f28f
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Fri Jul 8 22:55:38 2022 +0100
+
+    able to select grids that are not part of the original filled in puzzle
+
+commit 4031bbff181917bf7d1191cdccfefd846fd2a778
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 7 19:14:27 2022 +0100
+
+    stage 2.2 added check and dismiss button
+
+commit 846d050642cc7b9d1c51d9cde584165373f95dc4
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jul 7 18:52:32 2022 +0100
+
+    different grid sizes can be implemented in the game window
+
+commit f4f84a4a3957a5d05a44f107e0c6b9b09bec3468
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jun 30 14:17:04 2022 +0100
+
+    can load 4x4 puzzle in gui
+
+commit d88fb26c1727418efa095978d6da7607dc9cdd83
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jun 30 11:06:32 2022 +0100
+
+    drew a canvas with 4x4 grid and loaded numbers from puzzle
+
+commit 9b138940d3cc04d4ab2d55308ae2119673b822d1
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu Jun 30 00:29:18 2022 +0100
+
+    created a basic 4x4 canvas without any numbers or inqualities
+
+commit 54b41163bd85e0faee3e06f6220c3e88faf753b1
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jun 29 11:50:53 2022 +0100
+
+    simple gui and home page
+
+commit 84dae509115695c6569830112a3ad44451ffb6a0
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jun 29 11:24:11 2022 +0100
+
+    does not allow user to enter number if duplicate
+
+commit 239d7be295296d5be0f13f94aec9bc37266a7409
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jun 29 11:02:27 2022 +0100
+
+    doesn't allow user to play in invalid tiles
+
+commit 2177779ed52ef741330697eb444b23b55a0e5bd5
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jun 28 12:52:24 2022 +0100
+
+    mvp, allows user to play puzzle until complete
+
+commit f5720e19de0928117fbfaed12db59c7b4beef70e
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Tue Jun 28 12:31:27 2022 +0100
+
+    nea mvp mvp
+
+commit 9bdafdcd982468dbf798d11d7beac66c9307c564
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Mon Jun 27 08:52:51 2022 +0100
+
+    check if grids are equal
+
+commit c129934f511a559d0c6733fc7fee99e53e69ff1b
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sun Jun 26 22:29:18 2022 +0100
+
+    reading empty puzzle
+
+commit ef3aae69bd572ebab0f7a16ae89cda457389199a
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sun Jun 26 22:10:07 2022 +0100
+
+    validating row, column and choice input 1-n or x
+
+commit 318147d1451fb2d346a79deba9a1eb0aa969e614
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sun Jun 26 21:02:19 2022 +0100
+
+    printed pre loaded game as list
+
+commit 41bcf7cc6d7c956cb90db1405b15363b1507ab9d
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Sat Jun 25 22:07:55 2022 +0100
+
+    example game
+
+commit ff80a160b286a618ce9082f207f8ca005db08ed7
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jun 22 16:00:41 2022 +0100
+
+    creaetion of initial files and collecting user input
+
+commit 8f861d08fbf7d016747d9f71980e522220327593
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jun 22 15:31:51 2022 +0100
+
+    initial creation of game, ui and main files
+
+commit 5bca523a2bd8d343f832000aa5d63d2a924e5563
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Wed Jun 22 15:07:19 2022 +0100
+
+    test file
+
+commit 5663001bfc8fade97a050d9ba35fcd202ee2cde3
+Author: Sophie Chiang <sophieyoshi2014@gmail.com>
+Date:   Thu May 12 15:08:46 2022 +0100
+
+    first commit
